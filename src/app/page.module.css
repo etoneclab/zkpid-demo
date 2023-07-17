@@ -1,0 +1,16 @@
+.main {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6rem;
+  min-height: 100vh;
+}
+
+.dexarea {
+  width: 70%;
+}
+
+.walletarea {
+  width: 30%;
+}
