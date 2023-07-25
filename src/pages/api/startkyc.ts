@@ -1,4 +1,3 @@
-import { ConnectionData } from "@/components/util";
 import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next/types";
 
@@ -8,7 +7,7 @@ interface ResponseData {
 }
 
 export default async function handler(req:NextApiRequest, res:NextApiResponse<ResponseData>) {
-  console.log('Co:', ConnectionData)
+  let token = ''
 
   let url = process.env.ZKPID_AUTH_URL + '/papi/auth'
   try {
@@ -20,19 +19,19 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse<Re
         'Content-Type': 'application/json'
       }
     })
-    ConnectionData.token = response.data.token
+    token = response.data.token
   } catch(e) {
     console.log(e)
     res.status(500).json({message: 'Error on connection'})
     return
   }
 
-
-  if (!ConnectionData.token) {
+  if (!token) {
     res.status(403).json({authToken: ''})
     return
   }
 
+  console.log('BODY:', req.body.address)
   url = process.env.ZKPID_URL + '/v1/api/startkyc'
   try {
     const response = await axios.post(url, {
@@ -41,7 +40,7 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse<Re
     }, {
       headers: {
         'Content-Type': 'application/json',
-        'X-Token': ConnectionData.token
+        'X-Token': token
       }
     })
     res.status(200).json(response.data)

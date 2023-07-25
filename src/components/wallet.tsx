@@ -1,3 +1,4 @@
+import styles from '../app/page.module.css'
 
 export const WALLET = () => {
     return (

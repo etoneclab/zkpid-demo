@@ -1,6 +1,6 @@
 import { DEX } from '../components/dex'
-import styles from './page.module.css'
 import { WALLET } from '../components/wallet'
+import styles from './page.module.css'
 
 export default function Home() {
   return (
