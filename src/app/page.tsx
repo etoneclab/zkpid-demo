@@ -11,11 +11,10 @@ import { appWithTranslation } from "next-i18next";
 import { initReactI18next } from "react-i18next";
 import nextI18NextConfig from "../../next-i18next.config";
 function Home() {
-  const language = localStorage.getItem("language") || "en";
+  const language = "en";
 
   i18n.use(initReactI18next).init({
     resources: {
-      // Update the resources here based on next-i18next configuration.
       en: {
         translation: require("../components/translations/english.json"),
       },

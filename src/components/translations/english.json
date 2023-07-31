@@ -2,6 +2,13 @@
   "menu": {
     "trade": "trade",
     "Earns": "Earns",
-    "Pools": "Pools"
+    "Pools": "Pools",
+    "connectionButton": "Connect wallet"
+  },
+  "modalConnection": {
+    "title": "Wallet connection",
+    "content": "The DEX wants to connect with your wallet. Do you want to continue?",
+    "cancel": "cancel",
+    "countinue": "countinue"
   }
 }

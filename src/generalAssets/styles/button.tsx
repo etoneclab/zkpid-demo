@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme?: any) => ({
   },
   contained: {
     background: theme.palette.primary.main,
-    color: theme.palette.text.secondary,
+    color: theme.palette.text.main,
     borderColor: theme.palette.primary.main,
     "&:hover": {
       background: theme.palette.primary[800],
