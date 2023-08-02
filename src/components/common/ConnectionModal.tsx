@@ -1,10 +1,10 @@
+"use client";
 import { Dialog, Theme, Typography } from "@mui/material";
 import { FC, useState } from "react";
-import Button from "./Button";
 import { useTranslation } from "react-i18next";
-import { connect, ConnectedProps, useDispatch } from "react-redux";
+import { store } from "@/store/store";
 import clsx from "clsx";
-
+import { connected } from "@/store/reducers/root";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
@@ -24,12 +24,16 @@ export const ConnectionModal: FC<ConnectionModalProps> = ({
   const { t } = useTranslation();
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("sm"));
+  const [conn, setConn] = useState(false);
 
-  const [buttonContent, setButtonContent] = useState(
-    t("settings.company.resetBtnFirst")
-  );
-
-  const createKey = async (e: any) => {};
+  store.subscribe(() => {
+    const state = store.getState();
+    setConn(state.auth.request);
+  });
+  const conecting = () => {
+    store.dispatch(connected({ connection: true }));
+    handleCancel();
+  };
   const handleCancel = () => {
     if (onCancel) {
       onCancel();
@@ -70,7 +74,7 @@ export const ConnectionModal: FC<ConnectionModalProps> = ({
             <Typography
               variant="button"
               className={classes.resetBtn}
-              onClick={createKey}
+              onClick={conecting}
             >
               {t("modalConnection.countinue")}
             </Typography>

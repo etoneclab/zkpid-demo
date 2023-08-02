@@ -7,7 +7,7 @@ import { useTranslation } from "next-i18next";
 import { MenuItem, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 import useStyles from "../generalAssets/styles/Header";
-import { ConnectionModal } from "./common/ConnectionModal";
+import { ConnectionModal } from "../components/common/ConnectionModal";
 
 export const MENU = () => {
   const [selected, setSelected] = useState<number>();
@@ -25,10 +25,6 @@ export const MENU = () => {
       store.dispatch(request({ connection: false }));
     }
   });
-
-  const connectWallet = () => {
-    store.dispatch(request({ connection: true }));
-  };
 
   async function getData() {
     fetch("/api/startkyc", {
@@ -51,6 +47,7 @@ export const MENU = () => {
   };
   const handleConnect = async () => {
     setOpen(true);
+    store.dispatch(request({ connection: true }));
   };
   const onCancel = () => {
     setOpen(false);
@@ -58,15 +55,15 @@ export const MENU = () => {
   const pages = [
     {
       text: t("menu.trade"),
-      link: ["/trade"],
+      link: "/about",
     },
     {
       text: t("menu.Earns"),
-      link: ["/earns"],
+      link: "/earns",
     },
     {
       text: t("menu.Pools"),
-      link: ["/pools"],
+      link: "/pools",
     },
   ];
   const handleSelect = (item: any) => {
@@ -74,36 +71,35 @@ export const MENU = () => {
     router.push(item?.link[0]);
     console.log(pages?.indexOf(item));
   };
+  const text = conn ? t("menu.connectTrue") : t("menu.connectionButton");
   return (
-    <>
-      <div className={classes.header}>
-        <Typography variant="h5" noWrap component="a" href="">
-          DEMO DEX
-        </Typography>
-        {pages.map((page, index) => (
-          <MenuItem key={index} onClick={handleCloseNavMenu}>
-            <Typography
-              textAlign="center"
-              onClick={() => {
-                handleSelect(page);
-              }}
-            >
-              {page.text}
-            </Typography>
-          </MenuItem>
-        ))}
-
-        <div className={classes.column}>
+    <div className={classes.header}>
+      <Typography variant="h5" noWrap component="a" href="">
+        DEMO DEX
+      </Typography>
+      {pages.map((page, index) => (
+        <MenuItem key={index} onClick={handleCloseNavMenu}>
           <Typography
-            variant="button"
-            className={classes.connectBtn}
-            onClick={handleConnect}
+            align="center"
+            onClick={() => {
+              handleSelect(page);
+            }}
           >
-            {t("menu.connectionButton")}
+            {page.text}
           </Typography>
-          <ConnectionModal open={open} onCancel={onCancel} />
-        </div>
+        </MenuItem>
+      ))}
+
+      <div className={classes.column}>
+        <Typography
+          variant="button"
+          className={classes.connectBtn}
+          onClick={handleConnect}
+        >
+          {text}
+        </Typography>
+        <ConnectionModal open={open} onCancel={onCancel} />
       </div>
-    </>
+    </div>
   );
 };

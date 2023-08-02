@@ -1,9 +1,10 @@
 "use client";
 import { NextAppDirEmotionCacheProvider } from "../generalAssets/Themes/EmotionCache";
 import CssBaseline from "@mui/material/CssBaseline";
-import { DEX } from "../components/dex";
-import { MENU } from "../components/Header";
-import { WALLET } from "../components/wallet";
+// import { DEX } from "../components/dex";
+// import { MENU } from "../pages/Header";
+// import { WALLET } from "../components/wallet";
+import Index from "@/pages";
 import { theme } from "../generalAssets/Themes/Theme";
 import { ThemeProvider } from "@mui/material/styles";
 import i18n from "i18next";
@@ -31,13 +32,7 @@ function Home() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <main>
-          <MENU />
-          <section>
-            <DEX />
-          </section>
-          <section>
-            <WALLET />
-          </section>
+          <Index />
         </main>
       </ThemeProvider>
     </NextAppDirEmotionCacheProvider>

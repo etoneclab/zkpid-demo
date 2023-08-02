@@ -3,7 +3,8 @@
     "trade": "trade",
     "Earns": "Earns",
     "Pools": "Pools",
-    "connectionButton": "Connect wallet"
+    "connectionButton": "Connect wallet",
+    "connectTrue": "Address connected ah35fnle0n2-xiw-2hd9endj4"
   },
   "modalConnection": {
     "title": "Wallet connection",
