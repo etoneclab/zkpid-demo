@@ -11,7 +11,7 @@ import { ConnectionModal } from "./common/ConnectionModal";
 import { theme } from "../generalAssets/Themes/Theme";
 import Wallet from "../pages/about";
 export default () => {
-  const [selected, setSelected] = useState<number>();
+  const [selected, setSelected] = useState<number>(0);
   const [open, setOpen] = useState(false);
   const [token, setToken] = useState("");
   const [conn, setConn] = useState(false);
@@ -45,6 +45,7 @@ export default () => {
     setSelected(pages?.indexOf(item));
     router.push(item?.link[0]);
     console.log(pages?.indexOf(item));
+    console.log(selected);
   };
   const text = conn ? "menu.connectTrue" : "Connect wallet";
   return (
@@ -59,6 +60,7 @@ export default () => {
             onClick={() => {
               handleSelect(page);
             }}
+            variant={selected == index ? "caption" : "subtitle1"}
           >
             {page.text}
           </Typography>

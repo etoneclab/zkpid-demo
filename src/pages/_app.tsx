@@ -6,11 +6,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { CacheProvider, EmotionCache } from "@emotion/react";
 import { theme } from "../generalAssets/Themes/Theme";
 import createEmotionCache from "../createEmotionCache";
-import dynamic from "next/dynamic";
-const Header = dynamic(() => import("../components/Header"), {
-  ssr: false, // This tells Next.js to skip server-side rendering for this component
-});
-// Client-side cache, shared for the whole session of the user in the browser.
+
 const clientSideEmotionCache = createEmotionCache();
 
 export interface MyAppProps extends AppProps {
@@ -25,9 +21,7 @@ export default function MyApp(props: MyAppProps) {
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <ThemeProvider theme={theme}>
-        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
-
         <Component {...pageProps} />
       </ThemeProvider>
     </CacheProvider>

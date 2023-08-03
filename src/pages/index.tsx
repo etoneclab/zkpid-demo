@@ -41,10 +41,7 @@ export default function Index() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Header />
-        {/* <div className={classes.main}> */}
         <Trades />
-        {/* <Wallet /> */}
-        {/* </div> */}
       </ThemeProvider>
     </NextAppDirEmotionCacheProvider>
   );

@@ -208,8 +208,8 @@ export const theme = createTheme({
     },
     caption: {
       fontFamily: "'Source Sans Pro', sans-serif",
-      fontWeight: 400,
-      fontSize: "10px",
+      fontWeight: 700,
+      fontSize: "16px",
       lineHeight: "16px",
       letterSpacing: "0.4px",
     },

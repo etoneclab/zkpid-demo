@@ -8,12 +8,12 @@ const useStyles = makeStyles((theme) => {
   console.log(">>>", useTheme());
   return {
     header: {
-      maxWidth: "1248px",
       display: "flex",
+      maxWidth: "1248px",
+      position: "relative",
+      alignItems: "flex-start",
       justifyContent: "space-between",
       margin: useTheme().spacing(5),
-      position: "relative",
-      alignItems: "flex-start;",
     },
     connectBtnWrapper: {
       //   display: "flex",
@@ -21,6 +21,13 @@ const useStyles = makeStyles((theme) => {
       //   order: 1, // Set a lower order value to make it appear first
     },
     column: {},
+    active: {
+      fontSize: "16px",
+      fontStyle: "normal",
+      fontWeight: "700",
+      lineHeight: "24px" /* 150% */,
+      letterSpacing: "0.15px",
+    },
     connectBtn: {
       display: "flex",
       width: "164px",
@@ -28,7 +35,7 @@ const useStyles = makeStyles((theme) => {
       padding: useTheme().spacing(0),
       textAlign: "center",
       borderRadius: "10px",
-      fontSize: "0.87rem",
+
       border: "1px solid",
       flexDirection: "column",
       justifyContent: "center",
