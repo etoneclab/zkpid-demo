@@ -1,11 +1,10 @@
 "use client";
 
 import * as React from "react";
-import CssBaseline from "@mui/material/CssBaseline";
-import { createTheme, ThemeOptions, ThemeProvider } from "@mui/material/styles";
+import { createTheme } from "@mui/material/styles";
 import { Roboto } from "next/font/google";
 import { NextAppDirEmotionCacheProvider } from "./EmotionCache";
-const roboto = Roboto({
+export const roboto = Roboto({
   weight: ["300", "400", "500", "700"],
   style: ["normal", "italic"],
   subsets: ["latin"],
@@ -14,8 +13,31 @@ function customBorderTransform(value: any) {
   // Create a dynamic border string using the value from the theme
   return `${value}px solid black`;
 }
-
-const themeOptions: ThemeOptions = {
+const primaries = {
+  50: "#F0E3FF",
+  100: "#DEE1F8",
+  200: "#6D78C7",
+  300: "#CA9FFF",
+  400: "#BC88FF",
+  500: "#AF70FF",
+  600: "#A258FF",
+  700: "#7A42BF",
+  800: "#512C80",
+  900: "#291640",
+};
+const secondaries = {
+  50: "#CBFFEC",
+  100: "#BCC1E5",
+  200: "#888888",
+  300: "#2FFFB4",
+  400: "#29DF9E",
+  500: "#23BF87",
+  600: "#1D9F71",
+  700: "#18805A",
+  800: "#126044",
+  900: "#0C402D",
+};
+export const theme = createTheme({
   spacing: [0, 2, 4, 8, 12, 16, 24, 32, 48, 56, 64, 96, 128, 160, 256, 296],
   breakpoints: {
     values: {
@@ -52,16 +74,20 @@ const themeOptions: ThemeOptions = {
       main: "#2FFFB4",
       dark: "#0C402D",
       contrastText: "#08141E",
-      50: "#CBFFEC",
-      100: "#BCC1E5",
-      200: "#888888",
-      300: "#2FFFB4",
-      400: "#29DF9E",
-      500: "#23BF87",
-      600: "#1D9F71",
-      700: "#18805A",
-      800: "#126044",
-      900: "#0C402D",
+    },
+
+    grey: {
+      50: " #fafafa",
+      100: " #f5f5f5",
+      200: " #eeeeee",
+      300: " #e0e0e0",
+      400: " #bdbdbd",
+      500: " #9e9e9e",
+      600: " #757575",
+      700: " #616161",
+      800: " #424242",
+      900: " #212121",
+      A100: "#8C8C8C",
     },
     error: {
       main: "#FF365E",
@@ -236,9 +262,7 @@ const themeOptions: ThemeOptions = {
     "0px 4px 54px #BCC1E5",
     "6px 20px 20px 0px rgba(0, 0, 0, 0.05)",
   ],
-};
-
-export const theme = createTheme(themeOptions);
+});
 
 // export default function ThemeRegistry({
 //   children,

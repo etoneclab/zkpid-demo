@@ -77,7 +77,7 @@ const Btn: FC<ButtonProps> = ({
         <CircularProgress color="inherit" size={20} />
       ) : (
         <Typography variant="button" style={textStyle}>
-          {loading && version === "text" ? t("general.loading") : text}
+          {loading && version === "text" ? "Loading..." : text}
         </Typography>
       )}
     </Button>

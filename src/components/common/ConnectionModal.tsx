@@ -9,7 +9,7 @@ import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 import useStyles from "../../generalAssets/styles/ConnectionModal";
-
+import { theme } from "../../generalAssets/Themes/Theme";
 interface ConnectionModalProps {
   open: boolean;
   onCancel?: () => void;
@@ -20,16 +20,13 @@ export const ConnectionModal: FC<ConnectionModalProps> = ({
 
   onCancel,
 }) => {
-  const classes = useStyles();
   const { t } = useTranslation();
-  const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.up("sm"));
-  const [conn, setConn] = useState(false);
+  const classes = useStyles();
 
-  store.subscribe(() => {
-    const state = store.getState();
-    setConn(state.auth.request);
-  });
+  // store.subscribe(() => {
+  //   const state = store.getState();
+  //   setConn(state.auth.request);
+  // });
   const conecting = () => {
     store.dispatch(connected({ connection: true }));
     handleCancel();
@@ -39,9 +36,7 @@ export const ConnectionModal: FC<ConnectionModalProps> = ({
       onCancel();
     }
   };
-  const isSmallScreen = useMediaQuery((theme: Theme) =>
-    theme.breakpoints.down("sm")
-  );
+  const isSmallScreen = false; // useMediaQuery(() => useTheme().breakpoints.down("sm"));
   return (
     <>
       <Dialog
@@ -50,14 +45,16 @@ export const ConnectionModal: FC<ConnectionModalProps> = ({
         PaperProps={{ elevation: 0 }}
       >
         <Typography variant="h6" className={classes.text}>
-          {t("modalConnection.title")}
+          {"Wallet connection"}
         </Typography>
 
         <Typography
           variant={isSmallScreen ? "subtitle2" : "subtitle1"}
           className={classes.text}
         >
-          {t("modalConnection.content")}
+          {
+            "The DEX wants to connect with your wallet. Do you want to continue?"
+          }
         </Typography>
 
         <div className={classes.btnRow}>
@@ -67,7 +64,7 @@ export const ConnectionModal: FC<ConnectionModalProps> = ({
               className={classes.rejectBtn}
               onClick={handleCancel}
             >
-              {t("modalConnection.cancel")}
+              {"Cancel"}
             </Typography>
           </div>
           <div className={clsx(classes.btnMargin, classes.btn)}>
@@ -76,7 +73,7 @@ export const ConnectionModal: FC<ConnectionModalProps> = ({
               className={classes.resetBtn}
               onClick={conecting}
             >
-              {t("modalConnection.countinue")}
+              {"Continue"}
             </Typography>
           </div>
         </div>
