@@ -1,5 +1,5 @@
 "use client";
-
+import Image from "next/image";
 import { useState } from "react";
 import { store } from "../store/store";
 import { connected, request } from "@/store/reducers/root";
@@ -9,12 +9,12 @@ import { useRouter } from "next/navigation";
 import useStyles from "../generalAssets/styles/header";
 import { ConnectionModal } from "./common/ConnectionModal";
 import { theme } from "../generalAssets/Themes/Theme";
-
+import { useSelector } from "react-redux";
+import nave from "../generalAssets/img/nav.svg";
 export default () => {
   const [selected, setSelected] = useState<number>(0);
   const [open, setOpen] = useState(false);
   const [token, setToken] = useState("");
-  const [conn, setConn] = useState(false);
 
   const classes = useStyles();
   const { t } = useTranslation();
@@ -47,7 +47,9 @@ export default () => {
     console.log(pages?.indexOf(item));
     console.log(selected);
   };
-  const text = conn ? "menu.connectTrue" : "Connect wallet";
+  const conn = useSelector((state: any) => state.auth.connected);
+
+  console.log(conn);
   return (
     <div className={classes.header}>
       <Typography variant="h5" noWrap component="a" href="/">
@@ -67,13 +69,31 @@ export default () => {
         </MenuItem>
       ))}
       <div className={classes.connectBtnWrapper}>
-        <Typography
-          variant="button"
-          className={classes.connectBtn}
-          onClick={handleConnect}
-        >
-          {text}
-        </Typography>
+        {conn ? (
+          <>
+            <Typography
+              variant="body1"
+              className={classes.connectedBtn}
+              onClick={handleConnect}
+            >
+              Address connected
+              <br />
+              ah35fnle0n2-xiw-2hd9endj4
+            </Typography>
+            <Image src={nave} alt="" />
+          </>
+        ) : (
+          <>
+            <Typography
+              variant="button"
+              className={classes.connectBtn}
+              onClick={handleConnect}
+            >
+              Connect wallet
+            </Typography>
+          </>
+        )}
+
         <ConnectionModal
           open={open}
           onCancel={onCancel}

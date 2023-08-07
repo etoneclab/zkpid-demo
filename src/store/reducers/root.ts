@@ -2,16 +2,19 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const authSlice = createSlice({
   name: 'auth',
-  initialState: {connected: false, request: false},
+  initialState: { connected: false, request: false, toggleKYC: false },
   reducers: {
-    connected(state, action) {
-        state.connected = action.payload.connection
+    connected (state, action) {
+      state.connected = action.payload.connection
     },
-    request(state, action) {
-        state.request = action.payload.connection
+    request (state, action) {
+      state.request = action.payload.connection
+    },
+    toggleKYC (state) {
+      state.toggleKYC = !state.toggleKYC
     }
   }
 })
 
-export const { connected, request } = authSlice.actions
+export const { connected, request, toggleKYC } = authSlice.actions
 export default authSlice.reducer

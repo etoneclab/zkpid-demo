@@ -38,8 +38,7 @@ export default function Index() {
     <NextAppDirEmotionCacheProvider options={{ key: "mui" }}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-
-        <Trades />
+        <Trades kycStarted={false} />
       </ThemeProvider>
     </NextAppDirEmotionCacheProvider>
   );

@@ -7,14 +7,13 @@ import { useTranslation } from "react-i18next";
 import { store } from "@/store/store";
 import clsx from "clsx";
 import { connected } from "@/store/reducers/root";
-import { useTheme } from "@mui/material/styles";
-import useMediaQuery from "@mui/material/useMediaQuery";
 import smile from "../../generalAssets/img/smile.svg";
 
 import useStyles from "../../generalAssets/styles/ConnectionModal";
 import { theme } from "../../generalAssets/Themes/Theme";
 interface ConnectionModalProps {
   imgSrc: object | null;
+
   open: boolean;
   onCancel?: () => void;
   description: string;
@@ -24,6 +23,7 @@ interface ConnectionModalProps {
 
 export const ConnectionModal: FC<ConnectionModalProps> = ({
   open = false,
+
   imgSrc,
   title,
   description,

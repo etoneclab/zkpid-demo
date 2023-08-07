@@ -9,6 +9,8 @@ import { theme } from "../generalAssets/Themes/Theme";
 import createEmotionCache from "../createEmotionCache";
 // import Wallet from "./about";
 import dynamic from "next/dynamic";
+import { Provider } from "react-redux";
+import { store } from "@/store/store";
 
 const clientSideEmotionCache = createEmotionCache();
 const Wallet = dynamic(() => import("./Wallet"), {
@@ -26,30 +28,32 @@ export default function MyApp(props: MyAppProps) {
   const [kycStarted, setKycStarted] = useState(false);
   console.log("app", kycStarted);
   return (
-    <CacheProvider value={emotionCache}>
-      <Head>
-        <meta name="viewport" content="initial-scale=1, width=device-width" />
-      </Head>
-      <ThemeProvider theme={theme}>
-        <Header />
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            gap: "280px",
-            marginLeft: "52px",
-            marginRight: "49px",
-          }}
-        >
-          <CssBaseline />
-          <Component
-            kycStarted={kycStarted}
-            setKycStarted={setKycStarted}
-            {...pageProps}
-          />
-          <Wallet kycStarted={kycStarted} />
-        </div>
-      </ThemeProvider>
-    </CacheProvider>
+    <Provider store={store}>
+      <CacheProvider value={emotionCache}>
+        <Head>
+          <meta name="viewport" content="initial-scale=1, width=device-width" />
+        </Head>
+        <ThemeProvider theme={theme}>
+          <Header />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              gap: "280px",
+              marginLeft: "52px",
+              marginRight: "49px",
+            }}
+          >
+            <CssBaseline />
+            <Component
+              kycStarted={kycStarted}
+              setKycStarted={setKycStarted}
+              {...pageProps}
+            />
+            <Wallet kycStarted={kycStarted} />
+          </div>
+        </ThemeProvider>
+      </CacheProvider>
+    </Provider>
   );
 }

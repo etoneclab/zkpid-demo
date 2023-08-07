@@ -16,11 +16,9 @@ const useStyles = makeStyles((theme) => {
       margin: useTheme().spacing(5),
     },
     connectBtnWrapper: {
-      //   display: "flex",
-      //   alignItems: "flex-start;", // Adjust as needed
-      //   order: 1, // Set a lower order value to make it appear first
+      display: "flex",
     },
-    column: {},
+
     active: {
       fontSize: "16px",
       fontStyle: "normal",
@@ -48,6 +46,26 @@ const useStyles = makeStyles((theme) => {
       background: useTheme().palette.primary.main,
 
       color: useTheme().palette.text.secondary,
+      [useTheme().breakpoints.down("sm")]: {
+        marginRight: useTheme().spacing(0),
+      },
+    },
+    connectedBtn: {
+      display: "flex",
+      width: "170px",
+      height: "38px",
+      padding: useTheme().spacing(0),
+      textAlign: "center",
+      borderRadius: "10px",
+
+      flexDirection: "column",
+      justifyContent: "center",
+      marginLeft: "auto",
+      marginRight: useTheme().spacing(5),
+      cursor: "pointer",
+
+      background: useTheme().palette.primary.contrastText,
+      color: useTheme().palette.text.primary,
       [useTheme().breakpoints.down("sm")]: {
         marginRight: useTheme().spacing(0),
       },

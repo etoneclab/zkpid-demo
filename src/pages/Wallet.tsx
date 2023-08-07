@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -18,17 +18,19 @@ import menuIcone from "../generalAssets/img/menu.svg";
 import circle from "../generalAssets/img/Ellipse.svg";
 import purpleCircle from "../generalAssets/img/Ellipsepurple.svg";
 import WalletStarted from "./WalletStarted";
+import { store } from "@/store/store";
+import { useSelector } from "react-redux";
 interface WalletProps {
   kycStarted: boolean;
 }
-const Wallet: FC<WalletProps> = ({ kycStarted }) => {
+const Wallet: FC<WalletProps> = ({}) => {
   const classes = useStyles();
-  const { t } = useTranslation();
+  const toggleKYC = useSelector((state: any) => state.auth.toggleKYC);
   return (
     <>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        {kycStarted ? (
+        {!toggleKYC ? (
           <div className={classes.wallet}>
             <div>
               <Image src={menuIcone} alt="menu" />

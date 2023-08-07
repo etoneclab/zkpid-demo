@@ -8,7 +8,7 @@ import dynamic from "next/dynamic";
 import { store } from "../store/store";
 import { connected, request } from "@/store/reducers/root";
 import SmallTable from "../components/common/simpleTable";
-
+import Chart from "./chart";
 interface tradeProps {
   setKycStarted?: () => void;
   kycStarted: boolean;
@@ -33,7 +33,6 @@ const PermissionnedPools: FC<tradeProps> = ({
   const text = conn
     ? "Address connected ah35fnle0n2-xiw-2hd9endj4"
     : "Connect wallet";
-  console.log("props", kycStarted);
   return (
     <>
       <div className={classes.trade}>
@@ -41,7 +40,9 @@ const PermissionnedPools: FC<tradeProps> = ({
           PermissionnedPools
         </Typography>
 
-        <div className={classes.border1}>bitCoin</div>
+        <div className={classes.border1}>
+          <Chart />
+        </div>
         <div className={classes.border2}>
           <SmallTable />
         </div>

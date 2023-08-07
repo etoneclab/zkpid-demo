@@ -10,6 +10,7 @@ import { connected, request } from "@/store/reducers/root";
 import { useRouter } from "next/navigation";
 import { ConnectionModal } from "../components/common/ConnectionModal";
 import { theme } from "../generalAssets/Themes/Theme";
+import Chart from "./chart";
 
 interface tradeProps {
   setKycStarted?: () => void;
@@ -40,7 +41,9 @@ const Trades: FC<tradeProps> = ({ kycStarted = false, setKycStarted }) => {
           Trade
         </Typography>
 
-        <div className={classes.border1}>bitCoin</div>
+        <div className={classes.border1}>
+          <Chart />
+        </div>
         <div className={classes.border2}>
           <Typography variant="h4" className={classes.title}>
             swap

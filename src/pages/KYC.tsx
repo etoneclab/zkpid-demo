@@ -7,6 +7,9 @@ import { ConnectionModal } from "../components/common/ConnectionModal";
 import PermissionnedPools from "./permissionnedPools";
 import useStyles from "../generalAssets/styles/StartingKYC";
 import smile from "../generalAssets/img/smile.svg";
+import { toggleKYC } from "@/store/reducers/root";
+import { store } from "@/store/store";
+import { useSelector } from "react-redux";
 
 interface StartingKYCProps {
   openKYC: boolean;
@@ -32,15 +35,16 @@ export const StartingKYC: FC<StartingKYCProps> = ({
   const [permissionnedPools, setPermissionnedPools] = useState(false);
   const conecting = () => {
     setOpen(true);
+    store.dispatch(toggleKYC());
   };
   const handleCancel = () => {
     setOpen(false);
     setPermissionnedPools(true);
   };
-
+  const toggledKYC = useSelector((state: any) => state.auth.toggleKYC);
   return (
     <>
-      {permissionnedPools ? (
+      {toggledKYC ? (
         <PermissionnedPools kycStarted={false} />
       ) : (
         <div className={classes.kyc}>
