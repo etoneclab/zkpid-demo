@@ -5,9 +5,9 @@ type styleProps = {
 };
 const useStyles = makeStyles((theme?: any) => ({
   root: {
-    height: "40px",
+    height: "60px",
     width: (styleProps: styleProps) => styleProps.width,
-    minWidth: "165px",
+    minWidth: "300px",
     [theme.breakpoints.down("sm")]: {
       minWidth: "unset",
       width: "inherit",
@@ -81,8 +81,8 @@ const useStyles = makeStyles((theme?: any) => ({
     height: "58px",
   },
   sizeSmall: {
-    width: "120px",
-    height: "36px",
+    width: "300px",
+    height: "54px",
   },
 
   disabled: {

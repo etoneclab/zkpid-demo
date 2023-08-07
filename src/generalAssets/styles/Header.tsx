@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => {
   return {
     header: {
       display: "flex",
-      maxWidth: "1248px",
+      width: "874px",
       position: "relative",
       alignItems: "flex-start",
       justifyContent: "space-between",

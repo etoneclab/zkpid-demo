@@ -4,19 +4,17 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { theme } from "../generalAssets/Themes/Theme";
 import { ThemeProvider } from "@mui/material/styles";
 import i18n from "i18next";
-import { appWithTranslation } from "next-i18next";
 import { initReactI18next } from "react-i18next";
 import nextI18NextConfig from "../../next-i18next.config";
 import useStyles from "../generalAssets/styles/header";
-
 const Header = dynamic(() => import("../components/Header"), {
-  ssr: false, // This tells Next.js to skip server-side rendering for this component
+  ssr: false,
 });
 const Trades = dynamic(() => import("./trade"), {
-  ssr: false, // This tells Next.js to skip server-side rendering for this component
+  ssr: false,
 });
-const Wallet = dynamic(() => import("./about"), {
-  ssr: false, // This tells Next.js to skip server-side rendering for this component
+const Wallet = dynamic(() => import("./Wallet"), {
+  ssr: false,
 });
 import dynamic from "next/dynamic";
 
@@ -40,7 +38,7 @@ export default function Index() {
     <NextAppDirEmotionCacheProvider options={{ key: "mui" }}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Header />
+
         <Trades />
       </ThemeProvider>
     </NextAppDirEmotionCacheProvider>

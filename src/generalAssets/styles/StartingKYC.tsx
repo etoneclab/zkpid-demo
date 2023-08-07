@@ -3,17 +3,22 @@ import { useTheme } from "@mui/material/styles";
 
 const useStyles = makeStyles(() => {
   return {
-    dialogContainer: {
+    kyc: {
       display: "flex",
+      width: "534px",
       flexDirection: "column",
-      justifyContent: "space-between",
+      justifyContent: "center",
       alignItems: "center",
-      padding: useTheme().spacing(4),
-      width: "33.25rem",
-      height: "15.5rem",
-      color: useTheme().palette.text.secondary,
+
+      marginTop: "71px",
+
+      textAlign: "left",
+
       boxSizing: "border-box",
-      textAlign: "center",
+
+      padding: useTheme().spacing(4),
+      gap: "30px",
+      color: useTheme().palette.text.secondary,
       [useTheme().breakpoints.down("sm")]: {
         height: "auto",
         minHeight: "312px",
@@ -21,10 +26,33 @@ const useStyles = makeStyles(() => {
         padding: useTheme().spacing(4),
       },
     },
+    title: {
+      width: "534px",
+
+      display: "flex",
+      textAlign: "center",
+      alignItems: "center",
+      flexDirection: "column",
+      boxSizing: "border-box",
+      justifyContent: "space-between",
+      padding: useTheme().spacing(4),
+      color: useTheme().palette.text.secondary,
+    },
+    subTitles: {
+      fontSize: "18px",
+      fontStyle: "normal",
+      fontWeight: "600",
+      lineHeight: "32px" /* 177.778% */,
+      letterSpacing: "0.15px",
+      color: " var(--00-on-surface-high-emphasis, #08141E)",
+    },
+    list: { color: "black" },
     btnRow: {
+      width: "100%",
       display: "flex",
       flexDirection: "row",
       alignSelf: "center",
+      marginTop: "100px",
       [useTheme().breakpoints.down("sm")]: {
         width: "100%",
         flexDirection: "column-reverse",
@@ -38,7 +66,7 @@ const useStyles = makeStyles(() => {
       },
     },
     btn: {
-      width: "180px",
+      width: "100%",
       height: "38px",
       borderRadius: "8px",
       display: "flex",
@@ -54,12 +82,12 @@ const useStyles = makeStyles(() => {
     },
     rejectBtn: {
       color: useTheme().palette.text.primary,
-      width: "180px",
-      height: "38px",
+      width: "100%",
+      height: "48px",
       display: "flex",
 
       textAlign: "center",
-      borderRadius: "8px",
+      borderRadius: "15px",
       fontSize: "1rem",
       border: "1px solid",
       flexDirection: "column",
@@ -77,19 +105,14 @@ const useStyles = makeStyles(() => {
       },
     },
     resetBtn: {
+      width: "100%",
+      height: "48px",
       display: "flex",
-      width: "467px",
-      height: "224px",
-      padding: "16px",
-      flexDirection: "column",
-      alignItems: "center",
-      gap: "32px",
-      flexShrink: "0",
-
       textAlign: "center",
-      borderRadius: "8px",
+      borderRadius: "15px",
       fontSize: "1rem",
       border: "1px solid",
+      flexDirection: "column",
       justifyContent: "center",
       marginLeft: "auto",
       cursor: "pointer",

@@ -11,7 +11,8 @@ const useStyles = makeStyles(() => ({
   trade: {
     display: "flex",
     flexDirection: "column",
-    margin: useTheme().spacing(5),
+    margin: "auto",
+    marginLeft: useTheme().spacing(5),
   },
   border1: {
     width: "716px",

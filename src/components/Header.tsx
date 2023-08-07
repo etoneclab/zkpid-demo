@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import useStyles from "../generalAssets/styles/header";
 import { ConnectionModal } from "./common/ConnectionModal";
 import { theme } from "../generalAssets/Themes/Theme";
-import Wallet from "../pages/about";
+
 export default () => {
   const [selected, setSelected] = useState<number>(0);
   const [open, setOpen] = useState(false);
@@ -74,12 +74,16 @@ export default () => {
         >
           {text}
         </Typography>
-        <ConnectionModal open={open} onCancel={onCancel} />
+        <ConnectionModal
+          open={open}
+          onCancel={onCancel}
+          title="Wallet connection"
+          description="The DEX wants to connect with your wallet. Do you want to continue?"
+          imgSrc={null}
+        />
       </div>
       <div className={classes.testWrapper}>
-        <div className={classes.test}>
-          <Wallet />
-        </div>
+        <div className={classes.test}></div>
       </div>
     </div>
   );

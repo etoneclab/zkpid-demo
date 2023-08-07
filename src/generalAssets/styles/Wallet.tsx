@@ -5,7 +5,7 @@ const useStyles = makeStyles(() => ({
   wallet: {
     display: "flex",
     width: "347px",
-    height: "664px",
+    height: "674px",
     padding: useTheme().spacing(5, 5, 1, 5),
     flexDirection: "column",
     // alignItems: "center",
@@ -17,13 +17,31 @@ const useStyles = makeStyles(() => ({
     flexShrink: "0",
   },
   section2: {
+    gap: "24px",
     display: "flex",
     alignItems: "center",
     flexDirection: "column",
     justifyContent: "flex-start",
   },
-  menu: { textAlign: "center" },
+  menu: {
+    display: "flex",
+    justifyContent: "center",
+    flexDirection: "row",
+    gap: "6px",
+    textAlign: "center",
+  },
   title: { textAlign: "center" },
+  elipsTitle: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    alignSelf: "stretch",
+  },
+  justify: {
+    display: "flex",
+    flexDirection: "row",
+    gap: "10px",
+  },
   icones: {
     display: "flex",
     justifyContent: "space-around",
@@ -32,7 +50,7 @@ const useStyles = makeStyles(() => ({
   },
   wrape: { display: "flex", flexDirection: "column" },
   icone: {
-    margin: useTheme().spacing(0, 5),
+    margin: useTheme().spacing(2, 5),
     background: useTheme().palette.primary.main,
     display: "flex",
     width: "40px",
@@ -46,7 +64,7 @@ const useStyles = makeStyles(() => ({
   history: {
     display: "flex",
     width: "350px",
-    height: "410px",
+    height: "420px",
     padding: "10px 20px",
     flexDirection: "column",
     alignItems: "flex-start",
@@ -54,7 +72,6 @@ const useStyles = makeStyles(() => ({
     flexShrink: "0",
     borderRadius: "30px 30px 16px 16px",
     background: "var(--primary-20, rgba(222, 225, 248, 0.20))",
-    marginTop: useTheme().spacing(10),
   },
 }));
 export default useStyles;

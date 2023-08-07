@@ -1,4 +1,6 @@
 "use client";
+
+import Image from "next/image";
 import { Dialog, Theme, Typography } from "@mui/material";
 import { FC, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -7,18 +9,26 @@ import clsx from "clsx";
 import { connected } from "@/store/reducers/root";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import smile from "../../generalAssets/img/smile.svg";
 
 import useStyles from "../../generalAssets/styles/ConnectionModal";
 import { theme } from "../../generalAssets/Themes/Theme";
 interface ConnectionModalProps {
+  imgSrc: object | null;
   open: boolean;
   onCancel?: () => void;
+  description: string;
+  title: string;
+  setKycStarted?: () => void;
 }
 
 export const ConnectionModal: FC<ConnectionModalProps> = ({
   open = false,
-
+  imgSrc,
+  title,
+  description,
   onCancel,
+  setKycStarted,
 }) => {
   const { t } = useTranslation();
   const classes = useStyles();
@@ -36,7 +46,9 @@ export const ConnectionModal: FC<ConnectionModalProps> = ({
       onCancel();
     }
   };
-  const isSmallScreen = false; // useMediaQuery(() => useTheme().breakpoints.down("sm"));
+
+  console.log(title.length);
+
   return (
     <>
       <Dialog
@@ -45,37 +57,46 @@ export const ConnectionModal: FC<ConnectionModalProps> = ({
         PaperProps={{ elevation: 0 }}
       >
         <Typography variant="h6" className={classes.text}>
-          {"Wallet connection"}
+          {title.length === 0 ? <Image src={smile} alt={"smile"} /> : title}
         </Typography>
 
-        <Typography
-          variant={isSmallScreen ? "subtitle2" : "subtitle1"}
-          className={classes.text}
-        >
-          {
-            "The DEX wants to connect with your wallet. Do you want to continue?"
-          }
+        <Typography variant={"subtitle2"} className={classes.text}>
+          {description}
         </Typography>
 
         <div className={classes.btnRow}>
-          <div className={clsx(classes.btnMargin, classes.btn)}>
-            <Typography
-              variant="button"
-              className={classes.rejectBtn}
-              onClick={handleCancel}
-            >
-              {"Cancel"}
-            </Typography>
-          </div>
-          <div className={clsx(classes.btnMargin, classes.btn)}>
-            <Typography
-              variant="button"
-              className={classes.resetBtn}
-              onClick={conecting}
-            >
-              {"Continue"}
-            </Typography>
-          </div>
+          {title.length === 0 ? (
+            <div className={clsx(classes.btnMargin, classes.btn)}>
+              <Typography
+                variant="button"
+                className={classes.rejectBtn}
+                onClick={handleCancel}
+              >
+                {"Close"}
+              </Typography>
+            </div>
+          ) : (
+            <>
+              <div className={clsx(classes.btnMargin, classes.btn)}>
+                <Typography
+                  variant="button"
+                  className={classes.rejectBtn}
+                  onClick={handleCancel}
+                >
+                  {"Cancel"}
+                </Typography>
+              </div>
+              <div className={clsx(classes.btnMargin, classes.btn)}>
+                <Typography
+                  variant="button"
+                  className={classes.resetBtn}
+                  onClick={conecting}
+                >
+                  {"Continue"}
+                </Typography>
+              </div>
+            </>
+          )}
         </div>
       </Dialog>
     </>

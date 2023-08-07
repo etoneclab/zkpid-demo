@@ -1,31 +1,34 @@
 "use client";
 
-import { useState } from "react";
-import { store } from "../store/store";
+import { FC, useState } from "react";
+import Image from "next/image";
 import { connected, request } from "@/store/reducers/root";
-import { useTranslation } from "next-i18next";
-import { MenuItem, Typography } from "@mui/material";
-import { useRouter } from "next/navigation";
+import { Typography } from "@mui/material";
 import useStyles from "../generalAssets/styles/pools";
-import { ConnectionModal } from "../components/common/ConnectionModal";
+import { StartingKYC } from "./KYC";
 import { NextAppDirEmotionCacheProvider } from "../generalAssets/Themes/EmotionCache";
 import CssBaseline from "@mui/material/CssBaseline";
 import { theme } from "../generalAssets/Themes/Theme";
 import { ThemeProvider } from "@mui/material/styles";
 import i18n from "i18next";
-import { appWithTranslation } from "next-i18next";
 import { initReactI18next } from "react-i18next";
 import nextI18NextConfig from "../../next-i18next.config";
+import Btn from "../components/common/Button";
+import unlock from "../generalAssets/img/unlockIcon.svg";
+import lock from "../generalAssets/img/lockedIcon.svg";
 
 const Header = dynamic(() => import("../components/Header"), {
   ssr: false,
 });
 import dynamic from "next/dynamic";
-const Pools = () => {
+interface PoolProps {
+  setKycStarted?: () => void;
+  kycStarted: boolean;
+}
+const Pools: FC<PoolProps> = ({ kycStarted = false, setKycStarted }) => {
   const language = "en";
   const classes = useStyles();
-  const { t } = useTranslation();
-  const [open, setOpen] = useState(false);
+  const [openKYC, setOpenKYC] = useState(false);
   const [token, setToken] = useState("");
   const [conn, setConn] = useState(false);
   i18n.use(initReactI18next).init({
@@ -41,47 +44,75 @@ const Pools = () => {
     },
   });
 
-  const handleConnect = () => {};
-  const onCancel = () => {};
+  async function getData() {
+    setOpenKYC(true);
+    fetch("/api/startkyc", {
+      body: JSON.stringify({
+        address: "B6289288198293889123311",
+        uid: "unique session",
+      }),
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then(async (response) => {
+      const data = await response.json();
+      setToken(data.authToken);
+      console.log("Res:", data);
+    });
+  }
+  const onCancelKYC = () => {
+    setOpenKYC(false);
+    console.log("hey", openKYC);
+  };
+  {
+    console.log("openKYC", openKYC);
+  }
   const text = conn
     ? "Address connected ah35fnle0n2-xiw-2hd9endj4"
     : "Connect wallet";
-  console.log(conn);
+
   return (
     <>
       <NextAppDirEmotionCacheProvider options={{ key: "mui" }}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <Header />
-          <div className={classes.pools}>
-            <Typography variant="h5" noWrap component="a" href="">
-              Pool
-            </Typography>
 
-            <div className={classes.section1}>bitCoin</div>
-            <div className={classes.section2}>
-              <Typography variant="h4" className={classes.title}>
-                swap
+          {kycStarted ? (
+            <StartingKYC
+              setKycStarted={setKycStarted}
+              openKYC={openKYC}
+              title={"Welcome to KYC check connection"}
+              subTitle={"Thank you for choosing DEMO DEX!"}
+              description={"What is it?"}
+              onCancel={onCancelKYC}
+            />
+          ) : (
+            <div className={classes.pools}>
+              <Typography className={classes.title}>
+                Access liquidity pools
               </Typography>
-              <Typography variant="h6" className={classes.subTitle}>
-                Easy way to trade your tokens
-              </Typography>
-              <div className={classes.convertSection}>
-                <div className={classes.fromSection}>from</div>
-                <div className={classes.toSection}>to</div>
-              </div>
-              <div>
-                <Typography
-                  variant="button"
-                  className={classes.connectBtn}
-                  onClick={handleConnect}
-                >
-                  {text}
+
+              <div className={classes.section1}>
+                <Image src={unlock} alt="unlock" />
+                <Btn text={"Permissionless"} />
+                <Typography className={classes.title}>
+                  Join pool but with access limit
                 </Typography>
-                <ConnectionModal open={open} onCancel={onCancel} />
+              </div>
+              <div className={classes.section2}>
+                <Image src={lock} alt="unlock" />
+
+                <Btn text={"Permissioned"} onClick={getData} />
+                <Typography className={classes.title}>
+                  Access more liquidity pools by doing KYC check
+                </Typography>
+                {token ? (
+                  <iframe src={"https://ui.idenfy.com/?authToken=" + token} />
+                ) : null}
               </div>
             </div>
-          </div>
+          )}
         </ThemeProvider>
       </NextAppDirEmotionCacheProvider>
     </>

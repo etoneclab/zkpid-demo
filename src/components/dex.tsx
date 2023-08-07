@@ -48,7 +48,6 @@ export const DEX = () => {
       <section>
         <div onClick={getData}>Start KYC</div>
       </section>
-      `ddd
       {token ? (
         <iframe src={"https://ui.idenfy.com/?authToken=" + token} />
       ) : null}
