@@ -78,7 +78,7 @@ const Pools: FC<PoolProps> = ({ kycStarted = false, setKycStarted }) => {
         <ThemeProvider theme={theme}>
           <CssBaseline />
 
-          {kycStarted ? (
+          {openKYC ? (
             <StartingKYC
               setKycStarted={setKycStarted}
               openKYC={openKYC}

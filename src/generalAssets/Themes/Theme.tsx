@@ -102,7 +102,7 @@ export const theme = createTheme({
       hoverOpacity: 0.04,
       selected: " rgba(0, 0, 0, 0.08)",
       selectedOpacity: 0.08,
-      disabled: "rgba(0, 0, 0, 0.26)",
+      disabled: "rgba(161, 166, 170, 0.24)",
       disabledBackground: "rgba(0, 0, 0, 0.12)",
       disabledOpacity: 0.38,
       focus: "rgba(0, 0, 0, 0.12)",
