@@ -1,0 +1,15 @@
+{
+  "menu": {
+    "trade": "trade",
+    "Earns": "Earns",
+    "Pools": "Pools",
+    "connectionButton": "Connect wallet",
+    "connectTrue": "Address connected ah35fnle0n2-xiw-2hd9endj4"
+  },
+  "modalConnection": {
+    "title": "Wallet connection",
+    "content": "The DEX wants to connect with your wallet. Do you want to continue?",
+    "cancel": "cancel",
+    "countinue": "countinue"
+  }
+}
