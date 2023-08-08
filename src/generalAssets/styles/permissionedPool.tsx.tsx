@@ -4,7 +4,7 @@ type styleProps = {
   tertiary: boolean;
   width?: string;
 };
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     borderWidth: 1,
   },

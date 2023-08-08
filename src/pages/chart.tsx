@@ -93,11 +93,11 @@ function Example() {
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M12.4425 6.44238L9 9.87738L5.5575 6.44238L4.5 7.49988L9 11.9999L13.5 7.49988L12.4425 6.44238Z"
         fill="#08141E"
-        fill-opacity="0.6"
+        fillOpacity="0.6"
       />
     </svg>
   );

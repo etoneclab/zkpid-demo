@@ -1,7 +1,7 @@
 import { makeStyles } from '@mui/styles'
 import { useTheme } from '@mui/material/styles'
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   wallet: {
     display: 'flex',
     width: '347px',

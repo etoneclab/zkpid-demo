@@ -7,15 +7,15 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { CacheProvider, EmotionCache } from "@emotion/react";
 import { theme } from "../generalAssets/Themes/Theme";
 import createEmotionCache from "../createEmotionCache";
-// import Wallet from "./about";
-import dynamic from "next/dynamic";
 import { Provider } from "react-redux";
 import { store } from "@/store/store";
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next/initReactI18next";
+import nextI18NextConfig from "../../next-i18next.config";
+import dynamic from "next/dynamic";
 
 const clientSideEmotionCache = createEmotionCache();
-const Wallet = dynamic(() => import("./Wallet"), {
-  ssr: false,
-});
+
 const Header = dynamic(() => import("../components/Header"), {
   ssr: false,
 });
@@ -25,33 +25,26 @@ export interface MyAppProps extends AppProps {
 
 export default function MyApp(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
-  const [kycStarted, setKycStarted] = useState(false);
-  console.log("app", kycStarted);
+  const language = "en";
+  i18n.use(initReactI18next).init({
+    resources: {
+      en: {
+        translation: require("../components/translations/english.json"),
+      },
+    },
+    lng: language,
+    fallbackLng: nextI18NextConfig.i18n.defaultLocale,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
   return (
     <Provider store={store}>
       <CacheProvider value={emotionCache}>
-        <Head>
-          <meta name="viewport" content="initial-scale=1, width=device-width" />
-        </Head>
         <ThemeProvider theme={theme}>
           <Header />
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              gap: "280px",
-              marginLeft: "52px",
-              marginRight: "49px",
-            }}
-          >
             <CssBaseline />
-            <Component
-              kycStarted={kycStarted}
-              setKycStarted={setKycStarted}
-              {...pageProps}
-            />
-            <Wallet kycStarted={kycStarted} />
-          </div>
+            <Component {...pageProps} />
         </ThemeProvider>
       </CacheProvider>
     </Provider>

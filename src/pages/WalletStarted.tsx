@@ -20,7 +20,7 @@ interface WalletProps {
   kycStarted: boolean;
 }
 const WalletStarted: FC<WalletProps> = ({ kycStarted }) => {
-  const classes = useStyles();
+  const classes = useStyles(theme);
   const { t } = useTranslation();
   return (
     <>

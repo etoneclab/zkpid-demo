@@ -9,7 +9,6 @@ import { store } from "../store/store";
 import { connected, request } from "@/store/reducers/root";
 import { useRouter } from "next/navigation";
 import { ConnectionModal } from "../components/common/ConnectionModal";
-import { theme } from "../generalAssets/Themes/Theme";
 import Chart from "./chart";
 
 interface tradeProps {
@@ -33,7 +32,7 @@ const Trades: FC<tradeProps> = ({ kycStarted = false, setKycStarted }) => {
   const text = conn
     ? "Address connected ah35fnle0n2-xiw-2hd9endj4"
     : "Connect wallet";
-  console.log("props", kycStarted);
+
   return (
     <>
       <div className={classes.trade}>

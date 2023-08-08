@@ -20,6 +20,7 @@ interface MyDocumentProps extends DocumentProps {
 export default function MyDocument({ emotionStyleTags }: MyDocumentProps) {
   return (
     <Html lang="en" className={roboto.className}>
+      <Head />
       <body>
         <Main />
         <NextScript />

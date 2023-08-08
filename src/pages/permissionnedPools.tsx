@@ -17,7 +17,7 @@ const PermissionnedPools: FC<tradeProps> = ({
   kycStarted = false,
   setKycStarted,
 }) => {
-  const classes = useStyles();
+  const classes = useStyles(theme);
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [token, setToken] = useState("");

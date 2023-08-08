@@ -6,17 +6,18 @@ import { connected, request } from "@/store/reducers/root";
 import { useTranslation } from "next-i18next";
 import { MenuItem, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
-import useStyles from "../generalAssets/styles/header";
+import useStyles from "../generalAssets/styles/Header";
 import { ConnectionModal } from "./common/ConnectionModal";
 import { theme } from "../generalAssets/Themes/Theme";
 import { useSelector } from "react-redux";
 import nave from "../generalAssets/img/nav.svg";
+
 export default () => {
   const [selected, setSelected] = useState<number>(0);
   const [open, setOpen] = useState(false);
   const [token, setToken] = useState("");
 
-  const classes = useStyles();
+  const classes = useStyles(theme);
   const { t } = useTranslation();
   const router = useRouter();
 
@@ -49,7 +50,6 @@ export default () => {
   };
   const conn = useSelector((state: any) => state.auth.connected);
 
-  console.log(conn);
   return (
     <div className={classes.header}>
       <Typography variant="h5" noWrap component="a" href="/">

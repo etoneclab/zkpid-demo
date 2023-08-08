@@ -2,47 +2,30 @@
 
 import { FC, useState } from "react";
 import Image from "next/image";
-import { connected, request } from "@/store/reducers/root";
 import { Typography } from "@mui/material";
 import useStyles from "../generalAssets/styles/pools";
 import { StartingKYC } from "./KYC";
-import { NextAppDirEmotionCacheProvider } from "../generalAssets/Themes/EmotionCache";
-import CssBaseline from "@mui/material/CssBaseline";
-import { theme } from "../generalAssets/Themes/Theme";
-import { ThemeProvider } from "@mui/material/styles";
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import nextI18NextConfig from "../../next-i18next.config";
 import Btn from "../components/common/Button";
 import unlock from "../generalAssets/img/unlockIcon.svg";
 import lock from "../generalAssets/img/lockedIcon.svg";
+import dynamic from "next/dynamic";
 
-const Header = dynamic(() => import("../components/Header"), {
+const Wallet = dynamic(() => import("./Wallet"), {
   ssr: false,
 });
-import dynamic from "next/dynamic";
+
 interface PoolProps {
   setKycStarted?: () => void;
   kycStarted: boolean;
 }
 const Pools: FC<PoolProps> = ({ kycStarted = false, setKycStarted }) => {
-  const language = "en";
   const classes = useStyles();
   const [openKYC, setOpenKYC] = useState(false);
   const [token, setToken] = useState("");
   const [conn, setConn] = useState(false);
-  i18n.use(initReactI18next).init({
-    resources: {
-      en: {
-        translation: require("../components/translations/english.json"),
-      },
-    },
-    lng: language,
-    fallbackLng: nextI18NextConfig.i18n.defaultLocale,
-    interpolation: {
-      escapeValue: false,
-    },
-  });
 
   async function getData() {
     setOpenKYC(true);
@@ -74,10 +57,16 @@ const Pools: FC<PoolProps> = ({ kycStarted = false, setKycStarted }) => {
 
   return (
     <>
-      <NextAppDirEmotionCacheProvider options={{ key: "mui" }}>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-
+      <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              gap: "280px",
+              marginLeft: "52px",
+              marginRight: "49px",
+            }}
+          >
+        
           {openKYC ? (
             <StartingKYC
               setKycStarted={setKycStarted}
@@ -113,8 +102,8 @@ const Pools: FC<PoolProps> = ({ kycStarted = false, setKycStarted }) => {
               </div>
             </div>
           )}
-        </ThemeProvider>
-      </NextAppDirEmotionCacheProvider>
+        <Wallet kycStarted={kycStarted} />
+        </div>
     </>
   );
 };

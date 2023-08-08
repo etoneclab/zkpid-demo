@@ -5,7 +5,6 @@ type styleProps = {
   width?: string;
 };
 const useStyles = makeStyles((theme) => {
-  console.log(">>>", useTheme());
   return {
     header: {
       display: "flex",

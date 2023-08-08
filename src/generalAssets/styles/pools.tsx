@@ -4,7 +4,7 @@ type styleProps = {
   tertiary: boolean;
   width?: string;
 };
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   root: {},
   title: {
     color: "var(--00-on-surface-high-emphasis, #08141E)",

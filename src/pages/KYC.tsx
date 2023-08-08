@@ -10,6 +10,7 @@ import smile from "../generalAssets/img/smile.svg";
 import { toggleKYC } from "@/store/reducers/root";
 import { store } from "@/store/store";
 import { useSelector } from "react-redux";
+import { theme } from "@/generalAssets/Themes/Theme";
 
 interface StartingKYCProps {
   openKYC: boolean;
@@ -29,7 +30,7 @@ export const StartingKYC: FC<StartingKYCProps> = ({
   setKycStarted,
 }) => {
   const { t } = useTranslation();
-  const classes = useStyles();
+  const classes = useStyles(theme);
 
   const [open, setOpen] = useState(false);
   const [permissionnedPools, setPermissionnedPools] = useState(false);

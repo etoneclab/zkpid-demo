@@ -24,12 +24,11 @@ interface WalletProps {
   kycStarted: boolean;
 }
 const Wallet: FC<WalletProps> = ({}) => {
-  const classes = useStyles();
+  const classes = useStyles(theme);
   const toggleKYC = useSelector((state: any) => state.auth.toggleKYC);
   return (
     <>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
+      
         {!toggleKYC ? (
           <div className={classes.wallet}>
             <div>
@@ -39,18 +38,18 @@ const Wallet: FC<WalletProps> = ({}) => {
                 Acount 1
               </Typography>
             </div>
-            <Typography variant="h4" className={classes.title}>
+            <div className={classes.title}>
               15 Mina <br />{" "}
-              <Typography variant="h6" className={classes.title}>
+              <div className={classes.title}>
                 $ 0.00
-              </Typography>
-            </Typography>
+              </div>
+            </div>
             <div className={classes.section2}>
               <div className={classes.icones}>
                 <div className={classes.wrape}>
-                  <div className={classes.icone}>
+                  <Typography variant="body1"className={classes.icone}>
                     <Image src={sendIcone} alt="send" />
-                  </div>
+                  </Typography>
                   <Typography variant="body1" className={classes.title}>
                     Send
                   </Typography>
@@ -79,40 +78,40 @@ const Wallet: FC<WalletProps> = ({}) => {
                   Transactions history
                 </Typography>
                 <div className={classes.elipsTitle}>
-                  <Typography variant="body2" className={classes.justify}>
+                  <div  className={classes.justify}>
                     <Image src={circle} alt="" /> Lumina <br />
                     0.267 - $27,698.52
-                  </Typography>
-                  <Typography variant="body2">
+                  </div>
+                  <div >
                     10.98%<Typography variant="body1"> $7,395,90</Typography>
-                  </Typography>
+                  </div>
                 </div>
                 <div className={classes.elipsTitle}>
-                  <Typography variant="body2" className={classes.justify}>
+                  <div  className={classes.justify}>
                     <Image src={circle} alt="" /> Lumina <br />
                     0.267 - $27,698.52
-                  </Typography>
-                  <Typography variant="body2">
+                  </div>
+                  <div >
                     10.98%<Typography variant="body1"> $7,395,90</Typography>
-                  </Typography>
+                  </div>
                 </div>
                 <div className={classes.elipsTitle}>
-                  <Typography variant="body2" className={classes.justify}>
+                  <div  className={classes.justify}>
                     <Image src={circle} alt="" /> Lumina <br />
                     0.267 - $27,698.52
-                  </Typography>
-                  <Typography variant="body2">
+                  </div>
+                  <div >
                     10.98%<Typography variant="body1"> $7,395,90</Typography>
-                  </Typography>
+                  </div>
                 </div>
                 <div className={classes.elipsTitle}>
-                  <Typography variant="body2" className={classes.justify}>
+                  <div className={classes.justify}>
                     <Image src={circle} alt="" /> Lumina <br />
                     0.267 - $27,698.52
-                  </Typography>
-                  <Typography variant="body2">
+                  </div>
+                  <div >
                     10.98%<Typography variant="body1"> $7,395,90</Typography>
-                  </Typography>
+                  </div>
                 </div>
               </div>
             </div>
@@ -120,7 +119,7 @@ const Wallet: FC<WalletProps> = ({}) => {
         ) : (
           <WalletStarted kycStarted={false} />
         )}
-      </ThemeProvider>
+     
     </>
   );
 };
