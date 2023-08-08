@@ -34,7 +34,7 @@ export const StartingKYC: FC<StartingKYCProps> = ({
 
   const [open, setOpen] = useState(false);
   const [permissionnedPools, setPermissionnedPools] = useState(false);
-  const conecting = () => {
+  const connecting = () => {
     setOpen(true);
     store.dispatch(toggleKYC());
   };
@@ -81,7 +81,7 @@ export const StartingKYC: FC<StartingKYCProps> = ({
             <ul className={classes.list}>
               <li>
                 <Typography variant={"subtitle1"} className={classes.text}>
-                  Get your ID, passport or driver’s license, you will need to
+                  Get your ID, passport or driver's license, you will need to
                   scan them front and back. You will also be required to take a
                   photo of your face.
                 </Typography>
@@ -115,7 +115,7 @@ export const StartingKYC: FC<StartingKYCProps> = ({
               <Typography
                 variant="button"
                 className={classes.resetBtn}
-                onClick={conecting}
+                onClick={connecting}
               >
                 {"Start Verification"}
               </Typography>

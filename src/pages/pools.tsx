@@ -5,9 +5,6 @@ import Image from "next/image";
 import { Typography } from "@mui/material";
 import useStyles from "../generalAssets/styles/pools";
 import { StartingKYC } from "./KYC";
-import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
-import nextI18NextConfig from "../../next-i18next.config";
 import Btn from "../components/common/Button";
 import unlock from "../generalAssets/img/unlockIcon.svg";
 import lock from "../generalAssets/img/lockedIcon.svg";
@@ -21,18 +18,18 @@ interface PoolProps {
   setKycStarted?: () => void;
   kycStarted: boolean;
 }
-const Pools: FC<PoolProps> = ({ kycStarted = false, setKycStarted }) => {
+export default function Pools() {
   const classes = useStyles();
   const [openKYC, setOpenKYC] = useState(false);
   const [token, setToken] = useState("");
   const [conn, setConn] = useState(false);
 
   async function getData() {
-    setOpenKYC(true);
     fetch("/api/startkyc", {
       body: JSON.stringify({
         address: "B6289288198293889123311",
         uid: "unique session",
+        test: "APPROVED"
       }),
       method: "POST",
       headers: {
@@ -40,17 +37,13 @@ const Pools: FC<PoolProps> = ({ kycStarted = false, setKycStarted }) => {
       },
     }).then(async (response) => {
       const data = await response.json();
-      setToken(data.authToken);
-      console.log("Res:", data);
+      setToken(data.url)
     });
   }
   const onCancelKYC = () => {
     setOpenKYC(false);
-    console.log("hey", openKYC);
   };
-  {
-    console.log("openKYC", openKYC);
-  }
+  
   const text = conn
     ? "Address connected ah35fnle0n2-xiw-2hd9endj4"
     : "Connect wallet";
@@ -68,14 +61,19 @@ const Pools: FC<PoolProps> = ({ kycStarted = false, setKycStarted }) => {
           >
         
           {openKYC ? (
+            <>
             <StartingKYC
-              setKycStarted={setKycStarted}
+              setKycStarted={() => {}}
               openKYC={openKYC}
               title={"Welcome to KYC check connection"}
               subTitle={"Thank you for choosing DEMO DEX!"}
               description={"What is it?"}
               onCancel={onCancelKYC}
             />
+            {token ? (
+                  <iframe src={token} />
+                ) : null}
+                </>
           ) : (
             <div className={classes.pools}>
               <Typography className={classes.title}>
@@ -92,19 +90,16 @@ const Pools: FC<PoolProps> = ({ kycStarted = false, setKycStarted }) => {
               <div className={classes.section2}>
                 <Image src={lock} alt="unlock" />
 
-                <Btn text={"Permissioned"} onClick={getData} />
+                <Btn text={"Permissioned"} onClick={() => setOpenKYC(true)} />
                 <Typography className={classes.title}>
                   Access more liquidity pools by doing KYC check
                 </Typography>
-                {token ? (
-                  <iframe src={"https://ui.idenfy.com/?authToken=" + token} />
-                ) : null}
+                
               </div>
             </div>
           )}
-        <Wallet kycStarted={kycStarted} />
+        <Wallet kycStarted={false} />
         </div>
     </>
   );
 };
-export default Pools;

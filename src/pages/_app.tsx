@@ -23,7 +23,7 @@ export interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
 }
 
-export default function MyApp(props: MyAppProps) {
+function MyApp(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   const language = "en";
   i18n.use(initReactI18next).init({
@@ -50,3 +50,7 @@ export default function MyApp(props: MyAppProps) {
     </Provider>
   );
 }
+
+export default dynamic(() => Promise.resolve(MyApp), {
+  ssr: false,
+});
