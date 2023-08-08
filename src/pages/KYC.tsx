@@ -11,6 +11,7 @@ import { toggleKYC } from "@/store/reducers/root";
 import { store } from "@/store/store";
 import { useSelector } from "react-redux";
 import { theme } from "@/generalAssets/Themes/Theme";
+import axios from "axios";
 
 interface StartingKYCProps {
   openKYC: boolean;
@@ -31,13 +32,54 @@ export const StartingKYC: FC<StartingKYCProps> = ({
 }) => {
   const { t } = useTranslation();
   const classes = useStyles(theme);
+  const [token, setToken] = useState("");
 
   const [open, setOpen] = useState(false);
   const [permissionnedPools, setPermissionnedPools] = useState(false);
+
   const connecting = () => {
     setOpen(true);
+    getData();
     store.dispatch(toggleKYC());
   };
+
+  async function getData() {
+    // console.log("<<<<", process.env);
+    // let url = process.env.NEXT_PUBLIC_ZKPID_AUTH_URL + "/papi/auth";
+    // let token = "";
+    // try {
+    //   const response = await axios.post(
+    //     url,
+    //     {
+    //       customer_id: process.env.NEXT_PUBLIC_ZKPID_CUSTOMER_ID,
+    //       secret_key: process.env.NEXT_PUBLIC_ZKPID_SECRET_KEY,
+    //     },
+    //     {
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //     }
+    //   );
+    //   token = response.data.token;
+    // } catch (error) {
+    //   console.log(">>>>>", token, error);
+    // }
+    fetch("/api/startkyc", {
+      body: JSON.stringify({
+        address: "B6289288198293889123311",
+        uid: "unique session",
+        test: "APPROVED",
+      }),
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then(async (response) => {
+      const data = await response.json();
+      setToken(data.url);
+    });
+    console.log(token, "token");
+  }
   const handleCancel = () => {
     setOpen(false);
     setPermissionnedPools(true);
@@ -45,9 +87,13 @@ export const StartingKYC: FC<StartingKYCProps> = ({
   const toggledKYC = useSelector((state: any) => state.auth.toggleKYC);
   return (
     <>
-      {toggledKYC ? (
-        <PermissionnedPools kycStarted={false} />
+      {token ? (
+        // toggledKYC ? (
+        //   <PermissionnedPools kycStarted={false} />
+        // ) : (
+        <iframe src={token} />
       ) : (
+        // )
         <div className={classes.kyc}>
           <div className={classes.title}>
             <Typography variant="h5" className={classes.text}>
