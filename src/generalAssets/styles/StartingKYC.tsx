@@ -130,6 +130,10 @@ const useStyles = makeStyles((theme) => {
     quickIcon: {
       marginLeft: "auto",
     },
+    iframe: {
+      width: "100%",
+      height: "100%"
+    }
   };
 });
 export default useStyles;

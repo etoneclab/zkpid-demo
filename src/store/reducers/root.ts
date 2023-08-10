@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const authSlice = createSlice({
   name: 'auth',
-  initialState: { connected: false, request: false, toggleKYC: false },
+  initialState: { connected: "", request: false, toggleKYC: false },
   reducers: {
     connected (state, action) {
       state.connected = action.payload.connection

@@ -7,10 +7,10 @@ import { useTranslation } from "next-i18next";
 import { MenuItem, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 import useStyles from "../generalAssets/styles/Header";
-import { ConnectionModal } from "./common/ConnectionModal";
 import { theme } from "../generalAssets/Themes/Theme";
 import { useSelector } from "react-redux";
 import nave from "../generalAssets/img/nav.svg";
+import ConnectionModal from "./common/ConnectionModal";
 
 export default () => {
   const [selected, setSelected] = useState<number>(0);
@@ -26,7 +26,7 @@ export default () => {
   };
   const handleConnect = async () => {
     setOpen(true);
-    store.dispatch(request({ connection: true }));
+    //store.dispatch(request({ connection: true }));
   };
   const onCancel = () => {
     setOpen(false);
@@ -49,7 +49,6 @@ export default () => {
     console.log(selected);
   };
   const conn = useSelector((state: any) => state.auth.connected);
-
   return (
     <div className={classes.header}>
       <Typography variant="h5" noWrap component="a" href="/">
@@ -78,7 +77,7 @@ export default () => {
             >
               Address connected
               <br />
-              ah35fnle0n2-xiw-2hd9endj4
+              {conn}
             </Typography>
             <Image src={nave} alt="" />
           </>
@@ -93,7 +92,7 @@ export default () => {
             </Typography>
           </>
         )}
-
+        
         <ConnectionModal
           open={open}
           onCancel={onCancel}

@@ -44,7 +44,8 @@ export default async function handler (
       url,
       {
         address: req.body.address,
-        uid: req.body.uid
+        uid: req.body.uid,
+        test: req.body.test
       },
       {
         headers: {

@@ -20,6 +20,7 @@ export default function Index() {
               gap: "280px",
               marginLeft: "52px",
               marginRight: "49px",
+              marginBottom: "120px"
             }}
           >
         <Trades kycStarted={false} />

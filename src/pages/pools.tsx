@@ -9,6 +9,7 @@ import Btn from "../components/common/Button";
 import unlock from "../generalAssets/img/unlockIcon.svg";
 import lock from "../generalAssets/img/lockedIcon.svg";
 import dynamic from "next/dynamic";
+import { useSelector } from "react-redux";
 
 const Wallet = dynamic(() => import("./Wallet"), {
   ssr: false,
@@ -22,11 +23,11 @@ export default function Pools() {
   const classes = useStyles();
   const [openKYC, setOpenKYC] = useState(false);
   const [token, setToken] = useState("");
-  const [conn, setConn] = useState(false);
 
   const onCancelKYC = () => {
     setOpenKYC(false);
   };
+  const conn = useSelector((state: any) => state.auth.connected);
 
   return (
     <>
@@ -37,6 +38,7 @@ export default function Pools() {
           gap: "280px",
           marginLeft: "52px",
           marginRight: "49px",
+          marginBottom: "120px"
         }}
       >
         {openKYC ? (
@@ -61,16 +63,22 @@ export default function Pools() {
               <Image src={unlock} alt="unlock" />
               <Btn text={"Permissionless"} />
               <Typography className={classes.title}>
-                Join pool but with access limit
+                Join pool no permissions needed
               </Typography>
             </div>
             <div className={classes.section2}>
               <Image src={lock} alt="unlock" />
-
-              <Btn text={"Permissioned"} onClick={() => setOpenKYC(true)} />
               <Typography className={classes.title}>
                 Access more liquidity pools by doing KYC check
               </Typography>
+              {conn ?
+                <Btn text={"Permissioned"} onClick={() => setOpenKYC(true)} />
+              :  <Typography >
+                  Connect a wallet first...
+                </Typography>
+              }
+
+              
             </div>
           </div>
         )}

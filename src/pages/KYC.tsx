@@ -3,13 +3,13 @@ import { Typography } from "@mui/material";
 import { FC, useState } from "react";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
-import { ConnectionModal } from "../components/common/ConnectionModal";
+import ConnectionModal  from "../components/common/ConnectionModal";
 import PermissionnedPools from "./permissionnedPools";
 import useStyles from "../generalAssets/styles/StartingKYC";
 import smile from "../generalAssets/img/smile.svg";
-import { toggleKYC } from "@/store/reducers/root";
+import { connected, toggleKYC } from "@/store/reducers/root";
 import { store } from "@/store/store";
-import { useSelector } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { theme } from "@/generalAssets/Themes/Theme";
 import axios from "axios";
 
@@ -38,32 +38,12 @@ export const StartingKYC: FC<StartingKYCProps> = ({
   const [permissionnedPools, setPermissionnedPools] = useState(false);
 
   const connecting = () => {
-    setOpen(true);
+    setUpCallback()
     getData();
-    store.dispatch(toggleKYC());
+    //store.dispatch(toggleKYC());
   };
 
   async function getData() {
-    // console.log("<<<<", process.env);
-    // let url = process.env.NEXT_PUBLIC_ZKPID_AUTH_URL + "/papi/auth";
-    // let token = "";
-    // try {
-    //   const response = await axios.post(
-    //     url,
-    //     {
-    //       customer_id: process.env.NEXT_PUBLIC_ZKPID_CUSTOMER_ID,
-    //       secret_key: process.env.NEXT_PUBLIC_ZKPID_SECRET_KEY,
-    //     },
-    //     {
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //     }
-    //   );
-    //   token = response.data.token;
-    // } catch (error) {
-    //   console.log(">>>>>", token, error);
-    // }
     fetch("/api/startkyc", {
       body: JSON.stringify({
         address: "B6289288198293889123311",
@@ -78,20 +58,30 @@ export const StartingKYC: FC<StartingKYCProps> = ({
       const data = await response.json();
       setToken(data.url);
     });
-    console.log(token, "token");
   }
   const handleCancel = () => {
     setOpen(false);
     setPermissionnedPools(true);
   };
+
+  const setUpCallback = () => {
+    window && window.addEventListener("message", receiveMessage, false);
+    function receiveMessage(event:any) {
+      console.log('Event:', event.data.status)
+      if (event.data.status === 'approved') {
+        store.dispatch(connected({ connection: '' }));
+        setToken('')
+      }
+    }
+  }
   const toggledKYC = useSelector((state: any) => state.auth.toggleKYC);
+
   return (
     <>
       {token ? (
-        // toggledKYC ? (
-        //   <PermissionnedPools kycStarted={false} />
-        // ) : (
-        <iframe src={token} />
+        <div className={classes.kyc}>
+          <iframe className={classes.iframe} src={token} />
+        </div>
       ) : (
         // )
         <div className={classes.kyc}>

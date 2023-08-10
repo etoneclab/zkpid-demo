@@ -2,14 +2,8 @@
 import Image from "next/image";
 import { FC, useEffect, useState } from "react";
 
-import { ThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
-import { connected, request } from "@/store/reducers/root";
-import { useTranslation } from "next-i18next";
 import { MenuItem, Typography } from "@mui/material";
-import { useRouter } from "next/navigation";
 import useStyles from "../generalAssets/styles/Wallet";
-import { ConnectionModal } from "../components/common/ConnectionModal";
 import { theme } from "../generalAssets/Themes/Theme";
 import sendIcone from "../generalAssets/img/sendIcon.svg";
 import swapIcone from "../generalAssets/img/swap.svg";

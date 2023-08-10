@@ -11,6 +11,7 @@ import smile from "../../generalAssets/img/smile.svg";
 
 import useStyles from "../../generalAssets/styles/ConnectionModal";
 import { theme } from "../../generalAssets/Themes/Theme";
+import { WALLET_ADDRESS } from "../util";
 interface ConnectionModalProps {
   imgSrc: object | null;
 
@@ -21,7 +22,7 @@ interface ConnectionModalProps {
   setKycStarted?: () => void;
 }
 
-export const ConnectionModal: FC<ConnectionModalProps> = ({
+const ConnectionModal: FC<ConnectionModalProps> = ({
   open = false,
 
   imgSrc,
@@ -38,16 +39,14 @@ export const ConnectionModal: FC<ConnectionModalProps> = ({
   //   setConn(state.auth.request);
   // });
   const conecting = () => {
-    store.dispatch(connected({ connection: true }));
-    handleCancel();
+    store.dispatch(connected({ connection: WALLET_ADDRESS }));
+    handleCancel()
   };
   const handleCancel = () => {
     if (onCancel) {
       onCancel();
     }
   };
-
-  console.log(title.length);
 
   return (
     <>
@@ -102,3 +101,5 @@ export const ConnectionModal: FC<ConnectionModalProps> = ({
     </>
   );
 };
+
+export default ConnectionModal

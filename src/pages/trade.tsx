@@ -4,12 +4,13 @@ import { FC, useState } from "react";
 import { useTranslation } from "next-i18next";
 import { Typography } from "@mui/material";
 import useStyles from "../generalAssets/styles/trade";
-import dynamic from "next/dynamic";
 import { store } from "../store/store";
 import { connected, request } from "@/store/reducers/root";
 import { useRouter } from "next/navigation";
-import { ConnectionModal } from "../components/common/ConnectionModal";
 import Chart from "./chart";
+import { WALLET_ADDRESS } from "@/components/util";
+import ConnectionModal from "@/components/common/ConnectionModal";
+import { useSelector } from "react-redux";
 
 interface tradeProps {
   setKycStarted?: () => void;
@@ -20,18 +21,15 @@ const Trades: FC<tradeProps> = ({ kycStarted = false, setKycStarted }) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [token, setToken] = useState("");
-  const [conn, setConn] = useState(false);
+
   const handleConnect = async () => {
     setOpen(true);
     store.dispatch(request({ connection: true }));
-    console.log(conn);
   };
   const onCancel = () => {
     setOpen(false);
   };
-  const text = conn
-    ? "Address connected ah35fnle0n2-xiw-2hd9endj4"
-    : "Connect wallet";
+  const conn = useSelector((state: any) => state.auth.connected);
 
   return (
     <>
@@ -55,13 +53,15 @@ const Trades: FC<tradeProps> = ({ kycStarted = false, setKycStarted }) => {
             <div className={classes.toSection}>to</div>
           </div>
           <div>
+            {conn ? null :
             <Typography
               variant="button"
               className={classes.connectBtn}
               onClick={handleConnect}
             >
-              {text}
+              Connect wallet
             </Typography>
+            }
             <ConnectionModal
               imgSrc={[]}
               open={open}
