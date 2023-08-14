@@ -22,7 +22,7 @@
                 },
                 {
                     "name": "ZKPID_AUTH_URL",
-                    "value": "https://zkpid.etoneclab.com"
+                    "value": "https://auth.etoneclab.com"
                 }
             ],
             "environmentFiles": [],
