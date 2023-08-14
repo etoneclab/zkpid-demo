@@ -6,5 +6,6 @@ interface ResponseData {
 
 export default async function handler(req:NextApiRequest, res:NextApiResponse<ResponseData>) {
   // connect wallet....
-
+  console.log('BODY', req.body)
+  res.status(200).json({})
 }

@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => {
       justifyContent: "center",
       alignItems: "center",
 
-      marginTop: "71px",
+      marginTop: "1px",
 
       textAlign: "left",
 
@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => {
       display: "flex",
       flexDirection: "row",
       alignSelf: "center",
-      marginTop: "100px",
+      marginTop: "10px",
       [useTheme().breakpoints.down("sm")]: {
         width: "100%",
         flexDirection: "column-reverse",
