@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { store } from "../store/store";
 import { connected, request } from "@/store/reducers/root";
+import { v4 as uuidv4 } from "uuid";
 
 export const DEX = () => {
   const [token, setToken] = useState("");
@@ -24,7 +25,7 @@ export const DEX = () => {
     fetch("/api/startkyc", {
       body: JSON.stringify({
         address: "B6289288198293889123311",
-        uid: "unique session",
+        uid: uuidv4(),
       }),
       method: "POST",
       headers: {

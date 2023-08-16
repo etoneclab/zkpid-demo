@@ -1,9 +1,9 @@
 "use client";
 import { Typography } from "@mui/material";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
-import ConnectionModal  from "../components/common/ConnectionModal";
+import ConnectionModal from "../components/common/ConnectionModal";
 import PermissionnedPools from "./permissionnedPools";
 import useStyles from "../generalAssets/styles/StartingKYC";
 import smile from "../generalAssets/img/smile.svg";
@@ -12,7 +12,8 @@ import { store } from "@/store/store";
 import { connect, useSelector } from "react-redux";
 import { theme } from "@/generalAssets/Themes/Theme";
 import axios from "axios";
-
+import { v4 as uuidv4 } from "uuid";
+import sampleJson from "./sample.json";
 interface StartingKYCProps {
   openKYC: boolean;
   onCancel?: () => void;
@@ -30,15 +31,19 @@ export const StartingKYC: FC<StartingKYCProps> = ({
   onCancel,
   setKycStarted,
 }) => {
+  const uid = uuidv4();
   const { t } = useTranslation();
   const classes = useStyles(theme);
   const [token, setToken] = useState("");
 
   const [open, setOpen] = useState(false);
   const [permissionnedPools, setPermissionnedPools] = useState(false);
-
+  let pollingTimeout: ReturnType<typeof setTimeout> = setTimeout(
+    () => "",
+    1000
+  );
   const connecting = () => {
-    setUpCallback()
+    setUpCallback();
     getData();
     //store.dispatch(toggleKYC());
   };
@@ -47,7 +52,7 @@ export const StartingKYC: FC<StartingKYCProps> = ({
     fetch("/api/startkyc", {
       body: JSON.stringify({
         address: "B6289288198293889123311",
-        uid: "unique session",
+        uid,
         test: "APPROVED",
       }),
       method: "POST",
@@ -56,6 +61,7 @@ export const StartingKYC: FC<StartingKYCProps> = ({
       },
     }).then(async (response) => {
       const data = await response.json();
+      console.log("><<>", data);
       setToken(data.url);
     });
   }
@@ -63,17 +69,44 @@ export const StartingKYC: FC<StartingKYCProps> = ({
     setOpen(false);
     setPermissionnedPools(true);
   };
-
+  useEffect(() => {
+    return function cleanup() {
+      clearTimeout(pollingTimeout);
+    };
+  }, []);
+  const retryPolling = () => {
+    console.log("retring...");
+    pollingTimeout = setInterval(() => {
+      fetch("/api/polling", {
+        body: JSON.stringify({
+          address: "B6289288198293889123311",
+          uid,
+        }),
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then(async (response) => {
+        const data = await response.json();
+        // setToken(sampleJson.payload.data.jwt);
+        console.log("polling res:", data);
+      });
+    }, 3000);
+  };
   const setUpCallback = () => {
     window && window.addEventListener("message", receiveMessage, false);
-    function receiveMessage(event:any) {
-      console.log('Event:', event.data.status)
-      if (event.data.status === 'approved') {
-        store.dispatch(connected({ connection: '' }));
-        setToken('')
+    function receiveMessage(event: any) {
+      console.log("Event:", event.data.status);
+      if (event.data.status === "approved") {
+        store.dispatch(connected({ connection: "" }));
+        setToken("");
+        ///
+        ///
+        ///
+        retryPolling();
       }
     }
-  }
+  };
   const toggledKYC = useSelector((state: any) => state.auth.toggleKYC);
 
   return (
