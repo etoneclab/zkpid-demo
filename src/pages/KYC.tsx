@@ -1,6 +1,6 @@
 "use client";
 import { Typography } from "@mui/material";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import ConnectionModal from "../components/common/ConnectionModal";
@@ -42,6 +42,7 @@ export const StartingKYC: FC<StartingKYCProps> = ({
     () => "",
     1000
   );
+  let alreadyRegistered = useRef(false);
   const connecting = () => {
     setUpCallback();
     getData();
@@ -61,7 +62,7 @@ export const StartingKYC: FC<StartingKYCProps> = ({
       },
     }).then(async (response) => {
       const data = await response.json();
-      console.log("><<>", data);
+      console.log("<<!>>", data);
       setToken(data.url);
     });
   }
@@ -76,6 +77,7 @@ export const StartingKYC: FC<StartingKYCProps> = ({
   }, []);
   const retryPolling = () => {
     console.log("retring...");
+    clearTimeout(pollingTimeout);
     pollingTimeout = setInterval(() => {
       fetch("/api/polling", {
         body: JSON.stringify({
@@ -92,9 +94,15 @@ export const StartingKYC: FC<StartingKYCProps> = ({
       });
     }, 3000);
   };
-  const setUpCallback = () => {
-    window && window.addEventListener("message", receiveMessage, false);
+  const setUpCallback = async () => {
+    console.log(".......", alreadyRegistered.current);
+    if (alreadyRegistered.current) {
+      return;
+    }
+    alreadyRegistered.current = true;
+    window && window.addEventListener("message", receiveMessage);
     function receiveMessage(event: any) {
+      clearTimeout(pollingTimeout);
       console.log("Event:", event.data.status);
       if (event.data.status === "approved") {
         store.dispatch(connected({ connection: "" }));
