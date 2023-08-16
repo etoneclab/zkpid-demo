@@ -9,22 +9,21 @@ const Wallet = dynamic(() => import("./Wallet"), {
   ssr: false,
 });
 
-// do not delet this
 export default function Index() {
-  const [kycStarted, setKycStarted] = useState(false);
+  const [kycStarted, _] = useState(false);
   return (
-        <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              gap: "280px",
-              marginLeft: "52px",
-              marginRight: "49px",
-              marginBottom: "120px"
-            }}
-          >
-        <Trades kycStarted={false} />
-        <Wallet kycStarted={kycStarted} />
-        </div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        gap: "280px",
+        marginLeft: "52px",
+        marginRight: "49px",
+        marginBottom: "120px",
+      }}
+    >
+      <Trades kycStarted={false} />
+      <Wallet kycStarted={kycStarted} />
+    </div>
   );
 }
