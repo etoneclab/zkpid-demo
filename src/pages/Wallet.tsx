@@ -20,6 +20,20 @@ interface WalletProps {
 const Wallet: FC<WalletProps> = ({}) => {
   const classes = useStyles(theme);
   const toggleKYC = useSelector((state: any) => state.auth.toggleKYC);
+
+  useEffect(() => {
+    setUpCallback()
+  }, [])
+
+
+  const setUpCallback = () => {
+    console.log('Setup collegato')
+    window && window.addEventListener("credentialOffer", receiveMessage, false);
+    function receiveMessage(event: any) {
+      console.log("Event:", event.detail);
+    }
+  };
+
   return (
     <>
       

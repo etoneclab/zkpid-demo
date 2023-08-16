@@ -88,7 +88,8 @@ export const StartingKYC: FC<StartingKYCProps> = ({
         },
       }).then(async (response) => {
         const data = await response.json();
-        // setToken(sampleJson.payload.data.jwt);
+        window && window.dispatchEvent(new CustomEvent("credentialOffer", { detail: data} ))
+        clearTimeout(pollingTimeout);
         console.log("polling res:", data);
       });
     }, 3000);

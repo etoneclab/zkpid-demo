@@ -12,6 +12,7 @@ import smile from "../../generalAssets/img/smile.svg";
 import useStyles from "../../generalAssets/styles/ConnectionModal";
 import { theme } from "../../generalAssets/Themes/Theme";
 import { WALLET_ADDRESS } from "../util";
+
 interface ConnectionModalProps {
   imgSrc: object | null;
 
