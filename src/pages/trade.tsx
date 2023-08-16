@@ -9,8 +9,13 @@ import { connected, request } from "@/store/reducers/root";
 import { useRouter } from "next/navigation";
 import Chart from "./chart";
 import { WALLET_ADDRESS } from "@/components/util";
-import ConnectionModal from "@/components/common/ConnectionModal";
+//import ConnectionModal from "@/components/common/ConnectionModal";
 import { useSelector } from "react-redux";
+import dynamic from "next/dynamic";
+
+const ConnectionModal = dynamic(() => import("@/components/common/ConnectionModal"), {
+  ssr: false,
+});
 
 interface tradeProps {
   setKycStarted?: () => void;
@@ -21,6 +26,7 @@ const Trades: FC<tradeProps> = ({ kycStarted = false, setKycStarted }) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [token, setToken] = useState("");
+  const conn = useSelector((state: any) => state.auth.connected);
 
   const handleConnect = async () => {
     setOpen(true);
@@ -29,7 +35,6 @@ const Trades: FC<tradeProps> = ({ kycStarted = false, setKycStarted }) => {
   const onCancel = () => {
     setOpen(false);
   };
-  const conn = useSelector((state: any) => state.auth.connected);
 
   return (
     <>

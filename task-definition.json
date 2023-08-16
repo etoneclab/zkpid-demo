@@ -1,0 +1,113 @@
+{
+    "taskDefinitionArn": "arn:aws:ecs:eu-west-1:373650923932:task-definition/zkpid-demo:1",
+    "containerDefinitions": [
+        {
+            "name": "zkpid-demo",
+            "image": "373650923932.dkr.ecr.eu-west-1.amazonaws.com/zkpid-demo:latest",
+            "cpu": 0,
+            "portMappings": [
+                {
+                    "name": "zkpid-demo-3000-tcp",
+                    "containerPort": 3000,
+                    "hostPort": 3000,
+                    "protocol": "tcp",
+                    "appProtocol": "http"
+                }
+            ],
+            "essential": true,
+            "environment": [
+                {
+                    "name": "ZKPID_URL",
+                    "value": "https://zkpid.etoneclab.com"
+                },
+                {
+                    "name": "ZKPID_AUTH_URL",
+                    "value": "https://auth.etoneclab.com"
+                }
+            ],
+            "environmentFiles": [],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "secrets": [
+                {
+                    "name": "ZKPID_SECRET_KEY",
+                    "valueFrom": "ZKPID_SECRET_KEY_DEMO"
+                },
+                {
+                    "name": "ZKPID_CUSTOMER_ID",
+                    "valueFrom": "ZKPID_CUSTOMER_ID_DEMO"
+                },
+                {
+                    "name": "REDIS_SERVER",
+                    "valueFrom": "REDIS_SERVER_DEV"
+                }
+            ],
+            "ulimits": [],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-create-group": "true",
+                    "awslogs-group": "/ecs/zkpid-demo",
+                    "awslogs-region": "eu-west-1",
+                    "awslogs-stream-prefix": "ecs"
+                }
+            }
+        }
+    ],
+    "family": "zkpid-demo",
+    "taskRoleArn": "arn:aws:iam::373650923932:role/ecsTaskExecutionRole",
+    "executionRoleArn": "arn:aws:iam::373650923932:role/ecsTaskExecutionRole",
+    "networkMode": "awsvpc",
+    "revision": 1,
+    "volumes": [],
+    "status": "ACTIVE",
+    "requiresAttributes": [
+        {
+            "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
+        },
+        {
+            "name": "ecs.capability.execution-role-awslogs"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.ecr-auth"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.task-iam-role"
+        },
+        {
+            "name": "ecs.capability.execution-role-ecr-pull"
+        },
+        {
+            "name": "ecs.capability.secrets.ssm.environment-variables"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
+        },
+        {
+            "name": "ecs.capability.task-eni"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.29"
+        }
+    ],
+    "placementConstraints": [],
+    "compatibilities": [
+        "EC2",
+        "FARGATE"
+    ],
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "512",
+    "memory": "2048",
+    "runtimePlatform": {
+        "cpuArchitecture": "X86_64",
+        "operatingSystemFamily": "LINUX"
+    },
+    "registeredAt": "2023-07-20T09:07:50.978Z",
+    "registeredBy": "arn:aws:iam::373650923932:user/Emilio",
+    "tags": []
+}
