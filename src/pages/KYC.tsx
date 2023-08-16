@@ -1,6 +1,6 @@
 "use client";
 import { Typography } from "@mui/material";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import ConnectionModal from "../components/common/ConnectionModal";
@@ -42,6 +42,7 @@ export const StartingKYC: FC<StartingKYCProps> = ({
     () => "",
     1000
   );
+  let alreadyRegistered = useRef(false);
   const connecting = () => {
     setUpCallback();
     getData();
@@ -61,7 +62,7 @@ export const StartingKYC: FC<StartingKYCProps> = ({
       },
     }).then(async (response) => {
       const data = await response.json();
-      console.log("><<>", data);
+      console.log("<<!>>", data);
       setToken(data.url);
     });
   }
@@ -76,6 +77,7 @@ export const StartingKYC: FC<StartingKYCProps> = ({
   }, []);
   const retryPolling = () => {
     console.log("retring...");
+    clearTimeout(pollingTimeout);
     pollingTimeout = setInterval(() => {
       fetch("/api/polling", {
         body: JSON.stringify({
@@ -94,21 +96,23 @@ export const StartingKYC: FC<StartingKYCProps> = ({
       });
     }, 3000);
   };
-  const setUpCallback = () => {
-    window && window.addEventListener("message", receiveMessage, false);
+  const setUpCallback = async () => {
+    console.log(".......", alreadyRegistered.current);
+    if (alreadyRegistered.current) {
+      return;
+    }
+    alreadyRegistered.current = true;
+    window && window.addEventListener("message", receiveMessage);
     function receiveMessage(event: any) {
+      clearTimeout(pollingTimeout);
       console.log("Event:", event.data.status);
       if (event.data.status === "approved") {
         store.dispatch(connected({ connection: "" }));
         setToken("");
-        ///
-        ///
-        ///
         retryPolling();
       }
     }
   };
-  const toggledKYC = useSelector((state: any) => state.auth.toggleKYC);
 
   return (
     <>
@@ -117,7 +121,6 @@ export const StartingKYC: FC<StartingKYCProps> = ({
           <iframe className={classes.iframe} src={token} />
         </div>
       ) : (
-        // )
         <div className={classes.kyc}>
           <div className={classes.title}>
             <Typography variant="h5" className={classes.text}>
@@ -136,8 +139,8 @@ export const StartingKYC: FC<StartingKYCProps> = ({
               <li>
                 <Typography variant={"subtitle1"} className={classes.text}>
                   The ID verification, commonly called KYC (i.e. Know Your
-                  Customer), is performed by iDenfy. The final credential
-                  will be stored in this app and may be re-used with complying
+                  Customer), is performed by iDenfy. The final credential will
+                  be stored in this app and may be re-used with complying
                   businesses.
                 </Typography>
               </li>
@@ -151,9 +154,9 @@ export const StartingKYC: FC<StartingKYCProps> = ({
             <ul className={classes.list}>
               <li>
                 <Typography variant={"subtitle1"} className={classes.text}>
-                  Get your ID, passport or driver's license, you will need to
-                  scan them front and back. You will also be required to take a
-                  photo of your face.
+                  Get your ID, passport or driver&apos;s license, you will need
+                  to scan them front and back. You will also be required to take
+                  a photo of your face.
                 </Typography>
               </li>
             </ul>

@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useRouter } from "next/router";
-export default () => {
+const id = () => {
   const router = useRouter();
   const { id } = router.query;
 
@@ -10,3 +11,4 @@ export default () => {
     </div>
   );
 };
+export default id;

@@ -19,9 +19,9 @@ const PermissionnedPools: FC<tradeProps> = ({
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const [open, setOpen] = useState(false);
-  const [token, setToken] = useState("");
-  const [conn, setConn] = useState(false);
+  const [_open, setOpen] = useState(false);
+  const [_token, _setToken] = useState("");
+  const [conn, _setConn] = useState(false);
   const handleConnect = async () => {
     setOpen(true);
     store.dispatch(request({ connection: true }));

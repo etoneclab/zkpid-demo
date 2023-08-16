@@ -6,6 +6,7 @@
     "type": "kyc-zkpid",
     "test": "APPROVED"
   },
+  "qrcode": "",
   "payload": {
     "data": {
       "error": 0,

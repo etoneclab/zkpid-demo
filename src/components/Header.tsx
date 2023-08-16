@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 import Image from "next/image";
 import { useState } from "react";
@@ -12,7 +13,7 @@ import { useSelector } from "react-redux";
 import nave from "../generalAssets/img/nav.svg";
 import ConnectionModal from "./common/ConnectionModal";
 
-export default () => {
+const header = () => {
   const [selected, setSelected] = useState<number>(0);
   const [open, setOpen] = useState(false);
   const [token, setToken] = useState("");
@@ -92,7 +93,7 @@ export default () => {
             </Typography>
           </>
         )}
-        
+
         <ConnectionModal
           open={open}
           onCancel={onCancel}
@@ -150,3 +151,4 @@ export default () => {
 // }
 
 // export default Home;
+export default header;
