@@ -135,7 +135,7 @@ export const StartingKYC: FC<StartingKYCProps> = ({
               <li>
                 <Typography variant={"subtitle1"} className={classes.text}>
                   The ID verification, commonly called KYC (i.e. Know Your
-                  Customer), is performed by iDenfy. The reslistting credential
+                  Customer), is performed by iDenfy. The final credential
                   will be stored in this app and may be re-used with complying
                   businesses.
                 </Typography>
