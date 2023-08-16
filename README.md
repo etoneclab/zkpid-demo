@@ -10,8 +10,8 @@ This demo uses a demo-account with ZKP-ID so everything is in demo mode.
 
 ## Environmennt Variable
 
-ZKPID_AUTH_URL = The authentication URL
-ZKPID_CUSTOMER_ID = Customer ID from settings page
-ZKPID_SECRET_KEY = Secret Key from settings page
+### ZKPID_AUTH_URL = The authentication URL
+### ZKPID_CUSTOMER_ID = Customer ID from settings page
+### ZKPID_SECRET_KEY = Secret Key from settings page
 
-ZKPID_URL = The API Service URL
+### ZKPID_URL = The API Service URL
