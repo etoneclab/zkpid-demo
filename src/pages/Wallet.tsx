@@ -15,6 +15,7 @@ import purpleCircle from "../generalAssets/img/Ellipsepurple.svg";
 import WalletStarted from "./WalletStarted";
 import { store } from "@/store/store";
 import { useSelector } from "react-redux";
+import { WALLET_ADDRESS } from "@/components/util";
 interface WalletProps {
   kycStarted: boolean;
 }
@@ -22,6 +23,7 @@ const Wallet: FC<WalletProps> = ({}) => {
   const classes = useStyles(theme);
   const toggleKYC = useSelector((state: any) => state.auth.toggleKYC);
   const [popup, setPopup] = useState(false)
+  const [connect, setConnect] = useState('')
 
   useEffect(() => {
     setUpCallback()
@@ -42,10 +44,23 @@ const Wallet: FC<WalletProps> = ({}) => {
     }
   }
 
+  const connectToDex = (accept:boolean) => {
+    if (accept) {
+      window && window.dispatchEvent(new CustomEvent("dexConnect", { detail: WALLET_ADDRESS} ))
+    } 
+    setConnect('')
+  }
+
+  function walletConnect(event: any) {
+    const name = event.detail
+    setConnect(name)
+  }
+
   const setUpCallback = () => {
     console.log('Setup collegato')
     window && window.addEventListener("credentialOffer", receiveCredential, false);
     window && window.addEventListener("credentialRequest", requestCredential, false);
+    window && window.addEventListener("walletConnect", walletConnect, false);
   }
 
 
@@ -104,6 +119,30 @@ const Wallet: FC<WalletProps> = ({}) => {
                 <Typography variant="body1" className={classes.title}>
                   You received a credential
                 </Typography>
+              </div>
+              :
+              null}
+              { connect ? 
+              <div >
+                <Typography variant="body1" className={classes.title}>
+                  The {connect} wants to connect.
+                </Typography>
+                <div className={classes.justify}>
+                  <Typography
+                    variant="button"
+                    className={classes.btn}
+                    onClick={() => connectToDex(true)}
+                  >
+                    {"Connect!"}
+                </Typography>
+                <Typography
+                  variant="button"
+                  className={classes.btn}
+                  onClick={() => connectToDex(false)}
+                >
+                  {"Ignore..."}
+              </Typography>
+              </div>
               </div>
               :
               null}

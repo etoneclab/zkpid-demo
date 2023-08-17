@@ -55,6 +55,7 @@ export default function Pools() {
 
   useEffect(() => {
     window && window.addEventListener("message", receiveMessage);
+
     return function cleanup() {
       clearTimeout(pollingTimeout);
     };

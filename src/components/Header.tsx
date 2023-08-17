@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { store } from "../store/store";
 import { connected, request } from "@/store/reducers/root";
 import { useTranslation } from "next-i18next";
@@ -27,7 +27,7 @@ const Header = () => {
   }
 
   const handleConnect =  () => {
-    setOpen(true)
+    window && window.dispatchEvent(new CustomEvent("walletConnect", { detail: 'DEMO DEX'} ))
   }
 
   const onCancel = () => {
@@ -48,6 +48,14 @@ const Header = () => {
     setSelected(pages?.indexOf(item));
     router.push(item?.link[0]);
   };
+
+  function dexConnection(event: any) {
+    store.dispatch(connected({ connection: event.detail }));
+  }
+
+  useEffect(()=>{
+    window && window.addEventListener("dexConnect", dexConnection, false);
+  },[])
   
   return (
     <div className={classes.header}>
@@ -73,7 +81,6 @@ const Header = () => {
             <Typography
               variant="body1"
               className={classes.connectedBtn}
-              onClick={handleConnect}
             >
               Address connected
               <br />

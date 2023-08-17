@@ -37,9 +37,6 @@ export const StartingKYC: FC<StartingKYCProps> = ({
   const classes = useStyles(theme);
   const [token, setToken] = useState("");
 
-  const [open, setOpen] = useState(false);
-  const [permissionnedPools, setPermissionnedPools] = useState(false);
-  
   let alreadyRegistered = useRef(false);
   const connecting = () => {
     getData();
@@ -64,14 +61,10 @@ export const StartingKYC: FC<StartingKYCProps> = ({
     });
   }
   const handleCancel = () => {
-    setOpen(false);
-    setPermissionnedPools(true);
+    if (onCancel) onCancel()
   };
   
  
-
-  
-
   return (
     <>
       {token ? (

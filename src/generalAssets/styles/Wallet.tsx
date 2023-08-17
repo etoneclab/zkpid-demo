@@ -30,6 +30,16 @@ const useStyles = makeStyles((theme) => ({
     gap: "6px",
     textAlign: "center",
   },
+  btn: {
+    height: "38px",
+    borderRadius: "8px",
+    padding: "10px",
+    display: "flex",
+    justifyItems: "center",
+    cursor: "pointer",
+    color: useTheme().palette.text.primary,
+    background: useTheme().palette.secondary.main
+  },
   title: { textAlign: "center" },
   elipsTitle: {
     display: "flex",
