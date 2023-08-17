@@ -17,7 +17,6 @@ const Header = () => {
   const classes = useStyles();
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
-  const [token, setToken] = useState("");
   const [selected, setSelected] = useState<number>(0);
 
   const conn = useSelector((state: any) => state.auth.connected);
