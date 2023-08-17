@@ -13,12 +13,11 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next/initReactI18next";
 import nextI18NextConfig from "../../next-i18next.config";
 import dynamic from "next/dynamic";
+import Header from '../components/header'
 
 const clientSideEmotionCache = createEmotionCache();
 
-const Header = dynamic(() => import("../components/Header"), {
-  ssr: false,
-});
+
 export interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
 }

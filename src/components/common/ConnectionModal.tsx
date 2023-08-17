@@ -10,13 +10,10 @@ import { connected } from "@/store/reducers/root";
 import smile from "../../generalAssets/img/smile.svg";
 
 import useStyles from "../../generalAssets/styles/ConnectionModal";
-import { theme } from "../../generalAssets/Themes/Theme";
 import { WALLET_ADDRESS } from "../util";
 
 interface ConnectionModalProps {
   imgSrc: object | null;
-
-  open: boolean;
   onCancel?: () => void;
   description: string;
   title: string;
@@ -24,8 +21,6 @@ interface ConnectionModalProps {
 }
 
 const ConnectionModal: FC<ConnectionModalProps> = ({
-  open = false,
-
   imgSrc,
   title,
   description,
@@ -52,7 +47,7 @@ const ConnectionModal: FC<ConnectionModalProps> = ({
   return (
     <>
       <Dialog
-        open={open}
+        open={true}
         classes={{ paper: classes.dialogContainer }}
         PaperProps={{ elevation: 0 }}
       >

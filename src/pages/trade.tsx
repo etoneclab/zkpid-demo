@@ -9,13 +9,9 @@ import { connected, request } from "@/store/reducers/root";
 import { useRouter } from "next/navigation";
 import Chart from "./chart";
 import { WALLET_ADDRESS } from "@/components/util";
-//import ConnectionModal from "@/components/common/ConnectionModal";
 import { useSelector } from "react-redux";
 import dynamic from "next/dynamic";
 
-const ConnectionModal = dynamic(() => import("@/components/common/ConnectionModal"), {
-  ssr: false,
-});
 
 interface tradeProps {
   setKycStarted?: () => void;
@@ -27,14 +23,6 @@ const Trades: FC<tradeProps> = ({ kycStarted = false, setKycStarted }) => {
   const [open, setOpen] = useState(false);
   const [token, setToken] = useState("");
   const conn = useSelector((state: any) => state.auth.connected);
-
-  const handleConnect = async () => {
-    setOpen(true);
-    store.dispatch(request({ connection: true }));
-  };
-  const onCancel = () => {
-    setOpen(false);
-  };
 
   return (
     <>
@@ -57,26 +45,7 @@ const Trades: FC<tradeProps> = ({ kycStarted = false, setKycStarted }) => {
             <div className={classes.fromSection}>from</div>
             <div className={classes.toSection}>to</div>
           </div>
-          <div>
-            {conn ? null :
-            <Typography
-              variant="button"
-              className={classes.connectBtn}
-              onClick={handleConnect}
-            >
-              Connect wallet
-            </Typography>
-            }
-            <ConnectionModal
-              imgSrc={[]}
-              open={open}
-              onCancel={onCancel}
-              title={"Wallet connection"}
-              description={
-                "The DEX wants to connect with your wallet. Do you want to continue?"
-              }
-            />
-          </div>
+    
         </div>
       </div>
     </>

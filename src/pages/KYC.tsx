@@ -4,7 +4,7 @@ import { FC, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import ConnectionModal from "../components/common/ConnectionModal";
-import PermissionnedPools from "./permissionnedPools";
+import PermissionnedPools from "./permissionedpool";
 import useStyles from "../generalAssets/styles/StartingKYC";
 import smile from "../generalAssets/img/smile.svg";
 import { connected, toggleKYC } from "@/store/reducers/root";
@@ -21,6 +21,7 @@ interface StartingKYCProps {
   title: string;
   subTitle: string;
   setKycStarted?: () => void;
+  uid: string
 }
 
 export const StartingKYC: FC<StartingKYCProps> = ({
@@ -30,21 +31,17 @@ export const StartingKYC: FC<StartingKYCProps> = ({
   description,
   onCancel,
   setKycStarted,
+  uid
 }) => {
-  const uid = uuidv4();
   const { t } = useTranslation();
   const classes = useStyles(theme);
   const [token, setToken] = useState("");
 
   const [open, setOpen] = useState(false);
   const [permissionnedPools, setPermissionnedPools] = useState(false);
-  let pollingTimeout: ReturnType<typeof setTimeout> = setTimeout(
-    () => "",
-    1000
-  );
+  
   let alreadyRegistered = useRef(false);
   const connecting = () => {
-    setUpCallback();
     getData();
     //store.dispatch(toggleKYC());
   };
@@ -70,49 +67,10 @@ export const StartingKYC: FC<StartingKYCProps> = ({
     setOpen(false);
     setPermissionnedPools(true);
   };
-  useEffect(() => {
-    return function cleanup() {
-      clearTimeout(pollingTimeout);
-    };
-  }, []);
-  const retryPolling = () => {
-    console.log("retring...");
-    clearTimeout(pollingTimeout);
-    pollingTimeout = setInterval(() => {
-      fetch("/api/polling", {
-        body: JSON.stringify({
-          address: "B6289288198293889123311",
-          uid,
-        }),
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then(async (response) => {
-        const data = await response.json();
-        window && window.dispatchEvent(new CustomEvent("credentialOffer", { detail: data} ))
-        clearTimeout(pollingTimeout);
-        console.log("polling res:", data);
-      });
-    }, 3000);
-  };
-  const setUpCallback = async () => {
-    console.log(".......", alreadyRegistered.current);
-    if (alreadyRegistered.current) {
-      return;
-    }
-    alreadyRegistered.current = true;
-    window && window.addEventListener("message", receiveMessage);
-    function receiveMessage(event: any) {
-      clearTimeout(pollingTimeout);
-      console.log("Event:", event.data.status);
-      if (event.data.status === "approved") {
-        store.dispatch(connected({ connection: "" }));
-        setToken("");
-        retryPolling();
-      }
-    }
-  };
+  
+ 
+
+  
 
   return (
     <>
@@ -192,14 +150,7 @@ export const StartingKYC: FC<StartingKYCProps> = ({
               >
                 {"Start Verification"}
               </Typography>
-              <ConnectionModal
-                imgSrc={smile}
-                open={open}
-                onCancel={handleCancel}
-                title={""}
-                description={"KYC check completed!"}
-                setKycStarted={setKycStarted}
-              />
+              
             </div>
           </div>
         </div>

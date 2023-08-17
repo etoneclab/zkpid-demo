@@ -1,5 +1,5 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
+
 import Image from "next/image";
 import { useState } from "react";
 import { store } from "../store/store";
@@ -8,36 +8,37 @@ import { useTranslation } from "next-i18next";
 import { MenuItem, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 import useStyles from "../generalAssets/styles/Header";
-import { theme } from "../generalAssets/Themes/Theme";
 import { useSelector } from "react-redux";
 import nave from "../generalAssets/img/nav.svg";
 import ConnectionModal from "./common/ConnectionModal";
 
-const header = () => {
-  const [selected, setSelected] = useState<number>(0);
+const Header = () => {
+  const router = useRouter();
+  const classes = useStyles();
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [token, setToken] = useState("");
+  const [selected, setSelected] = useState<number>(0);
 
-  const classes = useStyles(theme);
-  const { t } = useTranslation();
-  const router = useRouter();
+  const conn = useSelector((state: any) => state.auth.connected);
 
   const handleCloseNavMenu = () => {
     console.log("responsive feature");
-  };
-  const handleConnect = async () => {
-    setOpen(true);
-    //store.dispatch(request({ connection: true }));
-  };
+  }
+
+  const handleConnect =  () => {
+    setOpen(true)
+  }
+
   const onCancel = () => {
-    setOpen(false);
-  };
+    setOpen(false)
+  }
+
   const pages = [
     {
       text: "trade",
       link: ["/"],
     },
-
     {
       text: "Pools",
       link: ["/pools"],
@@ -46,10 +47,8 @@ const header = () => {
   const handleSelect = (item: any) => {
     setSelected(pages?.indexOf(item));
     router.push(item?.link[0]);
-    console.log(pages?.indexOf(item));
-    console.log(selected);
   };
-  const conn = useSelector((state: any) => state.auth.connected);
+  
   return (
     <div className={classes.header}>
       <Typography variant="h5" noWrap component="a" href="/">
@@ -93,14 +92,14 @@ const header = () => {
             </Typography>
           </>
         )}
-
+        {open ? 
         <ConnectionModal
-          open={open}
           onCancel={onCancel}
           title="Wallet connection"
           description="The DEX wants to connect with your wallet. Do you want to continue?"
           imgSrc={null}
         />
+        : null }
       </div>
       <div className={classes.testWrapper}>
         <div className={classes.test}></div>
@@ -151,4 +150,4 @@ const header = () => {
 // }
 
 // export default Home;
-export default header;
+export default Header;

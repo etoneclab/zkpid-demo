@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import Image from "next/image";
 import { Typography } from "@mui/material";
 import useStyles from "../generalAssets/styles/pools";
@@ -10,6 +10,10 @@ import unlock from "../generalAssets/img/unlockIcon.svg";
 import lock from "../generalAssets/img/lockedIcon.svg";
 import dynamic from "next/dynamic";
 import { useSelector } from "react-redux";
+import { useRouter } from "next/router";
+import { store } from "@/store/store";
+import { connected } from "@/store/reducers/root";
+import { v4 as uuidv4 } from "uuid";
 
 const Wallet = dynamic(() => import("./Wallet"), {
   ssr: false,
@@ -23,10 +27,82 @@ export default function Pools() {
   const classes = useStyles();
   const [openKYC, setOpenKYC] = useState(false);
   const [token, setToken] = useState("");
+  const router = useRouter();
+  
+  let pollingTimeout: ReturnType<typeof setTimeout> = setTimeout(
+    () => "",
+    1000
+  );
 
   const onCancelKYC = () => {
     setOpenKYC(false);
   };
+
+  function providedMessage(event:any) {
+    router.push('/permissionedpool');
+  }
+
+  function notProvidedMessage(event:any) {
+    setOpenKYC(true)
+  }
+
+  window && window.addEventListener("credentialProvided", providedMessage);
+  window && window.addEventListener("credentialNotProvided", notProvidedMessage);
+
+  const checkCredential = () => {
+    window && window.dispatchEvent(new CustomEvent("credentialRequest", { detail: {type: 'kyc'}} ))
+  }
+
+  useEffect(() => {
+    window && window.addEventListener("message", receiveMessage);
+    return function cleanup() {
+      clearTimeout(pollingTimeout);
+    };
+  }, []);
+
+  const retryPolling = () => {
+    console.log("retring...");
+    clearTimeout(pollingTimeout);
+    pollingTimeout = setInterval(() => {
+      try {
+      fetch("/api/polling", {
+        body: JSON.stringify({
+          address: "B6289288198293889123311",
+          uid,
+        }),
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then(async (response) => {
+        if (response.status === 200) {
+          clearTimeout(pollingTimeout);
+          const data = await response.json();
+          window && window.dispatchEvent(new CustomEvent("credentialOffer", { detail: data} ))
+          console.log("polling res:", data);
+        } else {
+          console.log('polling...')
+        }
+      })
+    } catch(e) {
+      console.log('Error fetching...')
+    }
+    }, 3000);
+  };
+
+  function receiveMessage(event: any) {
+    clearTimeout(pollingTimeout);
+    console.log("Event:", event.data);
+    if (event.data.status === "approved") {
+      setToken("");
+      setOpenKYC(false)
+      retryPolling();
+    }
+  }
+
+
+  const uid=uuidv4()
+
   const conn = useSelector((state: any) => state.auth.connected);
 
   return (
@@ -44,6 +120,7 @@ export default function Pools() {
         {openKYC ? (
           <>
             <StartingKYC
+              uid={uid}
               setKycStarted={() => {}}
               openKYC={openKYC}
               title={"Welcome to KYC check connection"}
@@ -72,7 +149,7 @@ export default function Pools() {
                 Access more liquidity pools by doing KYC check
               </Typography>
               {conn ?
-                <Btn text={"Permissioned"} onClick={() => setOpenKYC(true)} />
+                <Btn text={"Permissioned"} onClick={() => checkCredential()} />
               :  <Typography >
                   Connect a wallet first...
                 </Typography>

@@ -9,6 +9,7 @@ import sendIcone from "../generalAssets/img/sendIcon.svg";
 import swapIcone from "../generalAssets/img/swap.svg";
 import downloadswapIcone from "../generalAssets/img/download.svg";
 import menuIcone from "../generalAssets/img/menu.svg";
+import credentialIcon from "../generalAssets/img/credentialicon.svg";
 import circle from "../generalAssets/img/Ellipse.svg";
 import purpleCircle from "../generalAssets/img/Ellipsepurple.svg";
 import WalletStarted from "./WalletStarted";
@@ -20,19 +21,33 @@ interface WalletProps {
 const Wallet: FC<WalletProps> = ({}) => {
   const classes = useStyles(theme);
   const toggleKYC = useSelector((state: any) => state.auth.toggleKYC);
+  const [popup, setPopup] = useState(false)
 
   useEffect(() => {
     setUpCallback()
   }, [])
 
+  function receiveCredential(event: any) {
+    console.log("Event:", event.detail);
+    localStorage.setItem('credential', JSON.stringify(event.detail))
+    setPopup(true)
+  }
+  
+  function requestCredential(event: any) {
+    const item = localStorage.getItem('credential')
+    if (item) {
+      window && window.dispatchEvent(new CustomEvent("credentialProvided", { detail: item} ))
+    } else {
+      window && window.dispatchEvent(new CustomEvent("credentialNotProvided", { detail: {}} ))
+    }
+  }
 
   const setUpCallback = () => {
     console.log('Setup collegato')
-    window && window.addEventListener("credentialOffer", receiveMessage, false);
-    function receiveMessage(event: any) {
-      console.log("Event:", event.detail);
-    }
-  };
+    window && window.addEventListener("credentialOffer", receiveCredential, false);
+    window && window.addEventListener("credentialRequest", requestCredential, false);
+  }
+
 
   return (
     <>
@@ -81,6 +96,17 @@ const Wallet: FC<WalletProps> = ({}) => {
                   </Typography>
                 </div>
               </div>
+              { popup ? 
+              <div className={classes.wraph}>
+                <div className={classes.credIcone}>
+                  <Image src={credentialIcon} alt="swap" />
+                </div>
+                <Typography variant="body1" className={classes.title}>
+                  You received a credential
+                </Typography>
+              </div>
+              :
+              null}
               <div className={classes.history}>
                 <Typography variant="subtitle2" className={classes.elipsTitle}>
                   Transactions history

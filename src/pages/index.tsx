@@ -1,17 +1,13 @@
 "use client";
 import { useState } from "react";
-import dynamic from "next/dynamic";
+import Wallet from "./Wallet";
+import Trades from "./trade";
 
-const Trades = dynamic(() => import("./trade"), {
-  ssr: false,
-});
-const Wallet = dynamic(() => import("./Wallet"), {
-  ssr: false,
-});
 
 export default function Index() {
   const [kycStarted, _] = useState(false);
   return (
+    <>
     <div
       style={{
         display: "flex",
@@ -25,5 +21,6 @@ export default function Index() {
       <Trades kycStarted={false} />
       <Wallet kycStarted={kycStarted} />
     </div>
+    </>
   );
 }
