@@ -64,12 +64,13 @@ export default function Pools() {
   const retryPolling = () => {
     console.log("retring...");
     clearTimeout(pollingTimeout);
+    const savedUid = localStorage.getItem('uid')
     pollingTimeout = setInterval(() => {
       try {
       fetch("/api/polling", {
         body: JSON.stringify({
           address: "B6289288198293889123311",
-          uid,
+          uid: savedUid,
         }),
         method: "POST",
         headers: {

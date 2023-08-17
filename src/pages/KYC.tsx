@@ -44,6 +44,7 @@ export const StartingKYC: FC<StartingKYCProps> = ({
 
   async function getData() {
     const realMode = localStorage.getItem('realmode')
+    localStorage.setItem('uid', uid)
 
     let body = {
       address: "B6289288198293889123311",
