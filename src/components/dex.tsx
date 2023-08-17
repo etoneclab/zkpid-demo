@@ -9,14 +9,6 @@ export const DEX = () => {
   const [token, setToken] = useState("");
   const [conn, setConn] = useState(false);
 
-  // store.subscribe(() => {
-  //   const state = store.getState();
-  //   setConn(state.auth.connected);
-  //   if (state.auth.request && state.auth.connected) {
-  //     store.dispatch(request({ connection: false }));
-  //   }
-  // });
-
   const connectWallet = () => {
     store.dispatch(request({ connection: true }));
   };

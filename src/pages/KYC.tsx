@@ -40,16 +40,19 @@ export const StartingKYC: FC<StartingKYCProps> = ({
   let alreadyRegistered = useRef(false);
   const connecting = () => {
     getData();
-    //store.dispatch(toggleKYC());
   };
 
   async function getData() {
+    const realMode = localStorage.getItem('realmode')
+
+    let body = {
+      address: "B6289288198293889123311",
+      uid,
+      test: realMode
+    }
+   
     fetch("/api/startkyc", {
-      body: JSON.stringify({
-        address: "B6289288198293889123311",
-        uid,
-        test: "APPROVED",
-      }),
+      body: JSON.stringify(body),
       method: "POST",
       headers: {
         "Content-Type": "application/json",
