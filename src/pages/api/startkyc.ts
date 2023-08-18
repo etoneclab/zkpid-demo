@@ -27,7 +27,7 @@ export default async function handler (
     )
     token = response.data.token
   } catch (e) {
-    // console.log(e)
+    console.log(e)
     res.status(500).json({ message: 'Error on connection' })
     return
   }
