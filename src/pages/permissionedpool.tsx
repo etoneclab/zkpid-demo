@@ -10,6 +10,7 @@ import { connected, request } from "@/store/reducers/root";
 import SmallTable from "../components/common/simpleTable";
 import Chart from "./chart";
 import { useRouter } from "next/router.js";
+import Wallet from "./Wallet";
 interface tradeProps {
   setKycStarted?: () => void;
   kycStarted: boolean;
@@ -30,9 +31,19 @@ const PermissionnedPools: FC<tradeProps> = ({
   }, [])
   return (
     <>
+    <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          gap: "280px",
+          marginLeft: "52px",
+          marginRight: "49px",
+          marginBottom: "120px"
+        }}
+      >
       <div className={classes.trade}>
         <Typography variant="h5" className={classes.title}>
-          PermissionnedPools
+          Permissioned Pool
         </Typography>
 
         <div className={classes.border1}>
@@ -41,6 +52,8 @@ const PermissionnedPools: FC<tradeProps> = ({
         <div className={classes.border2}>
           <SmallTable />
         </div>
+      </div>
+      <Wallet kycStarted={false} />
       </div>
     </>
   );

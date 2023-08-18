@@ -16,7 +16,6 @@ const Header = () => {
   const router = useRouter();
   const classes = useStyles();
   const { t } = useTranslation();
-  const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<number>(0);
 
   const conn = useSelector((state: any) => state.auth.connected);
@@ -27,10 +26,6 @@ const Header = () => {
 
   const handleConnect =  () => {
     window && window.dispatchEvent(new CustomEvent("walletConnect", { detail: 'DEMO DEX'} ))
-  }
-
-  const onCancel = () => {
-    setOpen(false)
   }
 
   const pages = [
@@ -98,14 +93,7 @@ const Header = () => {
             </Typography>
           </>
         )}
-        {open ? 
-        <ConnectionModal
-          onCancel={onCancel}
-          title="Wallet connection"
-          description="The DEX wants to connect with your wallet. Do you want to continue?"
-          imgSrc={null}
-        />
-        : null }
+        
       </div>
       <div className={classes.testWrapper}>
         <div className={classes.test}></div>
