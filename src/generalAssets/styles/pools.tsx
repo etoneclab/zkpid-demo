@@ -6,6 +6,9 @@ type styleProps = {
 };
 const useStyles = makeStyles((theme) => ({
   root: {},
+  noborder: {
+    border: "none"
+  },
   title: {
     color: "var(--00-on-surface-high-emphasis, #08141E)",
     fontSize: "24px",
@@ -13,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "700",
     lineHeight: "30px",
     letterSpacing: "0.18px",
+    textAlign: "center"
   },
   pools: {
     display: "flex",

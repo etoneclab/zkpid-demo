@@ -100,6 +100,10 @@ export default function Pools() {
       setOpenKYC(false)
       retryPolling();
     }
+    if (event.data.status === "unverified") {
+      setToken("");
+      setOpenKYC(false)
+    }
   }
 
 
@@ -125,12 +129,11 @@ export default function Pools() {
               uid={uid}
               setKycStarted={() => {}}
               openKYC={openKYC}
-              title={"Welcome to KYC check connection"}
+              title={"Welcome to ZKP-ID check connection"}
               subTitle={"Thank you for choosing DEMO DEX!"}
               description={"What is it?"}
               onCancel={onCancelKYC}
             />
-            {token ? <iframe src={token} /> : null}
           </>
         ) : (
           <div className={classes.pools}>

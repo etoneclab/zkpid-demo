@@ -94,7 +94,7 @@ export const StartingKYC: FC<StartingKYCProps> = ({
               <li>
                 <Typography variant={"subtitle1"} className={classes.text}>
                   The ID verification, commonly called KYC (i.e. Know Your
-                  Customer), is performed by iDenfy. The final credential will
+                  Customer), is performed by zkp-ID. The final credential will
                   be stored in this app and may be re-used with complying
                   businesses.
                 </Typography>
@@ -109,7 +109,7 @@ export const StartingKYC: FC<StartingKYCProps> = ({
             <ul className={classes.list}>
               <li>
                 <Typography variant={"subtitle1"} className={classes.text}>
-                  Get your ID, passport or driver&apos;s license, you will need
+                  Get your ID or passport, you will need
                   to scan them front and back. You will also be required to take
                   a photo of your face.
                 </Typography>
