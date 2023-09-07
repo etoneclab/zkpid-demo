@@ -17,7 +17,7 @@ interface tradeProps {
   kycStarted: boolean;
 }
 
-const PermissionnedPools: FC<tradeProps> = ({
+const PermissionlessPools: FC<tradeProps> = ({
   kycStarted = false,
   setKycStarted,
 }) => {
@@ -27,16 +27,12 @@ const PermissionnedPools: FC<tradeProps> = ({
   const conn = useSelector((state: any) => state.auth.connected);
 
   useEffect(() => {
-    const hasCredential = localStorage.getItem('credential')
     const address = localStorage.getItem('address')
-    if (hasCredential && address) {
-      const cred = JSON.parse(hasCredential)
-      if (address !== cred?.address || !cred?.zkp) {
+    if (!address) {
+      
         router.push('/');
       }
-    } else {
-      router.push('/');
-    }
+    
   }, [])
   return (
     <>
@@ -52,7 +48,7 @@ const PermissionnedPools: FC<tradeProps> = ({
       >
       <div className={classes.trade}>
         <Typography variant="h5" className={classes.title}>
-          Permissioned Pool
+          Permissionless Pool
         </Typography>
 
         <div className={classes.border1}>
@@ -62,9 +58,8 @@ const PermissionnedPools: FC<tradeProps> = ({
           <SmallTable />
         </div>
       </div>
-      
       </div>
     </>
   );
 };
-export default PermissionnedPools;
+export default PermissionlessPools;

@@ -39,6 +39,7 @@ export const StartingKYC: FC<StartingKYCProps> = ({
 
   let alreadyRegistered = useRef(false);
   const connecting = () => {
+    localStorage.removeItem('credential')
     getData();
   };
 

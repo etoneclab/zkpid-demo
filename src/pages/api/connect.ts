@@ -13,3 +13,5 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse<Re
   await RedisService.getInstance().getClient().setEx(req.body.data.uid, 3600, req.body.payload.data.jwt)
   res.status(200).json({})
 }
+
+

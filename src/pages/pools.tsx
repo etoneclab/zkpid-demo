@@ -8,16 +8,12 @@ import { StartingKYC } from "./KYC";
 import Btn from "../components/common/Button";
 import unlock from "../generalAssets/img/unlockIcon.svg";
 import lock from "../generalAssets/img/lockedIcon.svg";
-import dynamic from "next/dynamic";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import { store } from "@/store/store";
-import { connected } from "@/store/reducers/root";
+import Wallet from "./Wallet";
 import { v4 as uuidv4 } from "uuid";
-
-const Wallet = dynamic(() => import("./Wallet"), {
-  ssr: false,
-});
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface PoolProps {
   setKycStarted?: () => void;
@@ -29,6 +25,9 @@ export default function Pools() {
   const [token, setToken] = useState("");
   const router = useRouter();
   
+  const conn = useSelector((state: any) => state.auth.connected);
+
+
   let pollingTimeout: ReturnType<typeof setTimeout> = setTimeout(
     () => "",
     1000
@@ -39,27 +38,50 @@ export default function Pools() {
   };
 
   function providedMessage(event:any) {
-    router.push('/permissionedpool');
+    console.log('Received...', event)
+    localStorage.setItem('credential', JSON.stringify(event.detail))
+    if (event.detail.zkp) {
+      router.push('/permissionedpool');
+    } else {
+      setOpenKYC(true)
+    }
   }
 
   function notProvidedMessage(event:any) {
     setOpenKYC(true)
   }
 
-  window && window.addEventListener("credentialProvided", providedMessage);
-  window && window.addEventListener("credentialNotProvided", notProvidedMessage);
-
   const checkCredential = () => {
-    window && window.dispatchEvent(new CustomEvent("credentialRequest", { detail: {type: 'kyc'}} ))
+    const hasCredential = localStorage.getItem('credential')
+    const address = localStorage.getItem('address')
+    if (hasCredential && address) {
+      const cred = JSON.parse(hasCredential)
+      if (address !== cred?.address || !cred?.zkp) {
+        setOpenKYC(true)
+        return
+      } else {
+        router.push('/permissionedpool');
+        return 
+      }
+    } 
+    window && window.dispatchEvent(new CustomEvent("credentialRequest", { detail: {type: 'Kyc Attestation'}} ))
+    toast.success("Request credential sent!");
   }
 
   useEffect(() => {
-    window && window.addEventListener("message", receiveMessage);
+    window && window.addEventListener("message", receiveMessage, true);
+    window && window.addEventListener("credentialProvided", providedMessage, true);
+    window && window.addEventListener("credentialNotProvided", notProvidedMessage, true);
 
     return function cleanup() {
       clearTimeout(pollingTimeout);
+      window && window.removeEventListener("message", receiveMessage);
+      window && window.removeEventListener("credentialProvided", providedMessage);
+      window && window.removeEventListener("credentialNotProvided", notProvidedMessage);
+    
     };
   }, []);
+
 
   const retryPolling = () => {
     console.log("retring...");
@@ -96,9 +118,11 @@ export default function Pools() {
     clearTimeout(pollingTimeout);
     console.log("Event:", event.data);
     if (event.data.status === "approved") {
-      setToken("");
-      setOpenKYC(false)
-      retryPolling();
+      setTimeout(() => {
+        setToken("");
+        setOpenKYC(false)
+        retryPolling();
+      },5000)
     }
     if (event.data.status === "unverified") {
       setToken("");
@@ -109,7 +133,6 @@ export default function Pools() {
 
   const uid=uuidv4()
 
-  const conn = useSelector((state: any) => state.auth.connected);
 
   return (
     <>
@@ -143,28 +166,34 @@ export default function Pools() {
 
             <div className={classes.section1}>
               <Image src={unlock} alt="unlock" />
-              <Btn text={"Permissionless"} />
+              
               <Typography className={classes.title}>
-                Join pool no permissions needed
+                Permissionless pool
               </Typography>
+              <div>- Access without KYC check -</div>
+              {conn ?
+                <Btn text={"Join"} onClick={() => router.push('/permissionless')} />
+                :
+                <Btn disabled={true} textStyle={{color:"#555555"}} text="Connect a Wallet" />
+              }
             </div>
+            
             <div className={classes.section2}>
               <Image src={lock} alt="unlock" />
               <Typography className={classes.title}>
-                Access more liquidity pools by doing KYC check
+                Permissioned pool              
               </Typography>
+              <div>- KYC check required -</div>
               {conn ?
-                <Btn text={"Permissioned"} onClick={() => checkCredential()} />
-              :  <Typography >
-                  Connect a wallet first...
-                </Typography>
+                <Btn text={"Join"} onClick={() => checkCredential()} />
+              :  
+                <Btn disabled={true} textStyle={{color:"#555555"}} text="Connect a Wallet" />
               }
 
               
             </div>
           </div>
         )}
-        <Wallet kycStarted={false} />
       </div>
     </>
   );

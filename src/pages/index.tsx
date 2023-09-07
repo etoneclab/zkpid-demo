@@ -19,7 +19,7 @@ export default function Index() {
       }}
     >
       <Trades kycStarted={false} />
-      <Wallet kycStarted={kycStarted} />
+     
     </div>
     </>
   );

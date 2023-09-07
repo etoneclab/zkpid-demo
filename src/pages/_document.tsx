@@ -22,6 +22,7 @@ export default function MyDocument({ emotionStyleTags }: MyDocumentProps) {
     <Html lang="en" className={roboto.className}>
       <Head />
       <body>
+        <div style={{paddingTop: "40px"}}></div>
         <Main />
         <NextScript />
       </body>

@@ -87,7 +87,7 @@ const useStyles = makeStyles((theme?: any) => ({
 
   disabled: {
     "&.Mui-disabled": {
-      background: theme.palette.primary.main,
+      background: theme.palette.primary.contrastText,
       color: theme.palette.primary.main,
     },
   },

@@ -1,10 +1,9 @@
 "use client";
 import Image from "next/image";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 
-import { MenuItem, Typography } from "@mui/material";
+import { Dialog, Typography } from "@mui/material";
 import useStyles from "../generalAssets/styles/Wallet";
-import { theme } from "../generalAssets/Themes/Theme";
 import sendIcone from "../generalAssets/img/sendIcon.svg";
 import swapIcone from "../generalAssets/img/swap.svg";
 import downloadswapIcone from "../generalAssets/img/download.svg";
@@ -12,62 +11,62 @@ import menuIcone from "../generalAssets/img/menu.svg";
 import credentialIcon from "../generalAssets/img/credentialicon.svg";
 import circle from "../generalAssets/img/Ellipse.svg";
 import purpleCircle from "../generalAssets/img/Ellipsepurple.svg";
-import WalletStarted from "./WalletStarted";
-import { store } from "@/store/store";
-import { useSelector } from "react-redux";
 import { WALLET_ADDRESS } from "@/components/util";
 
-interface WalletProps {
-  kycStarted: boolean;
-}
 
-const Wallet: FC<WalletProps> = ({}) => {
+const Wallet = () => {
   const classes = useStyles();
+  const [connect, setConnect] = useState<string>('')
   const [popup, setPopup] = useState(false)
-  const [connect, setConnect] = useState('')
+  const [showCredential, setShowCredential] = useState(false)
+  const [credential, setCredential] = useState('')
 
   useEffect(() => {
+    window && window.addEventListener("credentialOffer", receiveCredential, true);
+    window && window.addEventListener("credentialRequest", requestCredential, true);
+    window && window.addEventListener("walletConnect", walletConnects, true);
     const cred = localStorage.getItem('credential')
     if (cred) {
       setPopup(true)
+      setCredential(cred)
     }
-    setUpCallback()
+    return () => {
+      window && window.removeEventListener("credentialOffer", receiveCredential);
+      window && window.removeEventListener("credentialRequest", requestCredential);
+      window && window.removeEventListener("walletConnect", walletConnects);
+    }
   }, [])
 
-  function receiveCredential(event: any) {
+  const receiveCredential = (event: any) => {
     console.log("Event:", event.detail);
-    localStorage.setItem('credential', JSON.stringify(event.detail))
+    const cred = JSON.stringify(event.detail)
+    localStorage.setItem('credential', cred)
+    setCredential(cred)
     setPopup(true)
   }
   
-  function requestCredential(event: any) {
-    const item = localStorage.getItem('credential')
-    if (item) {
-      window && window.dispatchEvent(new CustomEvent("credentialProvided", { detail: item} ))
-    } else {
-      window && window.dispatchEvent(new CustomEvent("credentialNotProvided", { detail: {}} ))
+  const  requestCredential = (event: any) => {
+    if (connect) {
+      const item = localStorage.getItem('credential')
+      if (item) {
+        window && window.dispatchEvent(new CustomEvent("credentialProvided", { detail: item} ))
+      } else {
+        window && window.dispatchEvent(new CustomEvent("credentialNotProvided", { detail: {}} ))
+      }
     }
   }
 
   const connectToDex = (accept:boolean) => {
     if (accept) {
-      window && window.dispatchEvent(new CustomEvent("dexConnect", { detail: WALLET_ADDRESS} ))
+      window && window.dispatchEvent(new CustomEvent("dexConnect", { detail: {connect: true, address: WALLET_ADDRESS}} ))
     } 
     setConnect('')
   }
 
-  function walletConnect(event: any) {
+  const walletConnects = (event: any) => {
     const name = event.detail
-    setConnect(name)
+    setConnect(name.name)
   }
-
-  const setUpCallback = () => {
-    console.log('Setup collegato')
-    window && window.addEventListener("credentialOffer", receiveCredential, false);
-    window && window.addEventListener("credentialRequest", requestCredential, false);
-    window && window.addEventListener("walletConnect", walletConnect, false);
-  }
-
 
   return (
     <div className={classes.wallet}>
@@ -116,7 +115,7 @@ const Wallet: FC<WalletProps> = ({}) => {
         { popup ? 
         <div className={classes.wraph}>
           <div className={classes.credIcone}>
-            <Image src={credentialIcon} alt="swap" />
+            <Image src={credentialIcon} alt="swap" onClick={() => setShowCredential(true)}/>
           </div>
           <Typography variant="body1" className={classes.title}>
             You received a credential
@@ -124,6 +123,22 @@ const Wallet: FC<WalletProps> = ({}) => {
         </div>
         :
         null}
+        <>
+        {showCredential ?
+         <Dialog
+         open={true}
+         onClose={() => setShowCredential(false)}
+         classes={{ paper: classes.dialogContainer }}
+         PaperProps={{ elevation: 0 }}
+       >
+         <Typography variant="h6" className={classes.title}>
+          ZKP issued for KYC
+         </Typography>
+         <Typography variant="body1" className={classes.titlewrap}>
+          {credential}
+         </Typography>
+         </Dialog>
+        : null}
         { connect ? 
         <div >
           <Typography variant="body1" className={classes.title}>
@@ -136,18 +151,19 @@ const Wallet: FC<WalletProps> = ({}) => {
               onClick={() => connectToDex(true)}
             >
               {"Connect!"}
-          </Typography>
-          <Typography
-            variant="button"
-            className={classes.btn}
-            onClick={() => connectToDex(false)}
-          >
-            {"Ignore..."}
-        </Typography>
-        </div>
+            </Typography>
+            <Typography
+              variant="button"
+              className={classes.btn}
+              onClick={() => connectToDex(false)}
+            >
+              {"Ignore..."}
+            </Typography>
+          </div>
         </div>
         :
         null}
+        </>
         <div className={classes.history}>
           <Typography variant="subtitle2" className={classes.elipsTitle}>
             Transactions history

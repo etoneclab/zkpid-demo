@@ -2,6 +2,24 @@ import { makeStyles } from "@mui/styles";
 import { useTheme } from "@mui/material/styles";
 
 const useStyles = makeStyles((theme) => ({
+  dialogContainer: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: useTheme().spacing(4),
+    width: "33.25rem",
+    height: "15.5rem",
+    color: useTheme().palette.text.primary,
+    boxSizing: "border-box",
+    textAlign: "center",
+    [useTheme().breakpoints.down("sm")]: {
+      height: "auto",
+      minHeight: "312px",
+      width: "100%",
+      padding: useTheme().spacing(4),
+    },
+  },
   wallet: {
     display: "flex",
     width: "347px",
@@ -41,6 +59,11 @@ const useStyles = makeStyles((theme) => ({
     background: useTheme().palette.secondary.main
   },
   title: { textAlign: "center" },
+  titlewrap: {
+    maxWidth: "80%",
+    textAlign: "center",
+    overflowWrap: "anywhere"
+  },
   elipsTitle: {
     display: "flex",
     justifyContent: "space-between",
